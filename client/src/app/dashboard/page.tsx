@@ -7,6 +7,7 @@ import { Header } from "@/components/Layouts/header";
 import CreateUserModal from "./CreateUserModal";
 import CardPage from "./pageForCard";
 import { title } from "process";
+import { error } from "console";
 
 interface column {
   items: any[];
@@ -70,7 +71,11 @@ export default function KanbanBoard () {
     fetch(`http://localhost:8080/cards/user/${userId}`)
     .then((rawData) => rawData.json())
     .then((data) => {
+      console.log("cardData ",data);
       setTaskList(data);
+    })
+    .catch((error) =>{
+      console.log("error ",error);
     });
   }, []);
 
@@ -88,7 +93,9 @@ export default function KanbanBoard () {
   const navData = [
     {
       label: "Tâches",
-      items: Object.hasOwn(taskList,"message") ? [] : taskList.map((task) => ({
+      items: Object.hasOwn(taskList,"message") ? 
+      [] 
+      : taskList.map((task) => ({
         title: task.card_title,
         activateAction: () => setCardId(task.card_id),
         items: [],
@@ -126,7 +133,7 @@ export default function KanbanBoard () {
               <CreateCardModal onCardAdded={refreshColumns} closeModal={closeModal}/>
             }
             <div  className="isolate mx-auto w-full overflow-hidden p-4 md:p-6 2xl:p-10">
-              <CardPage cardId={cardId}/>
+              {cardId ? <CardPage cardId={cardId}/>:<p>Aucune carte n'est selectionnée...</p>}
             </div>
         </div>
     </div>

@@ -63,13 +63,4 @@ router.delete("/:id", userController.delete);
  */
 router.get("/", userController.findAll);
 
-/**
- * @function
- * @name deleteAllUsers
- * @description Supprime tous les utilisateurs.
- * @param {object} req - L'objet requête.
- * @param {object} res - L'objet réponse.
- */
-router.delete("/", userController.deleteAll);
-
 export default router;

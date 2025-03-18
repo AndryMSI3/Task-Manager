@@ -1,3 +1,4 @@
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 import sql from "./db";
 import bcrypt from "bcrypt";
 
@@ -13,7 +14,7 @@ type ResultCallback<T> = (err: Error | null, result: T | null) => void;
 
 const user = {
     login: (user: { user_name: string; password: string }, result: ResultCallback<User>) => {
-        sql.query("SELECT * FROM utilisateur WHERE user_name = ?", [user.user_name], (err, res) => {
+        sql.query("SELECT * FROM utilisateur WHERE user_name = ?", [user.user_name], (err, res: RowDataPacket[]) => {
             if (err) {
                 console.error("Erreur:", err);
                 result(err, null);
@@ -40,8 +41,8 @@ const user = {
             }
         });  
     },
-    findById: (id: number, result: ResultCallback<User>) => {
-        sql.query("SELECT * FROM utilisateur WHERE user_id = ?", [id], (err, res) => {
+    findById: (id: number, result: ResultCallback<User | null>) => {
+        sql.query("SELECT * FROM utilisateur WHERE user_id = ?", [id], (err, res: RowDataPacket[]) => {
             if (err) {
                 console.error("Erreur:", err);
                 result(err, null);
@@ -85,7 +86,7 @@ const user = {
         sql.query(
             "UPDATE utilisateur SET user_name = ?, password = ?, privilege = ?, user_picture = ? WHERE user_id = ?",
             [user.user_name, user.password, user.privilege, user.user_picture, id],
-            (err, res) => {
+            (err, res: ResultSetHeader) => {
                 if (err) {
                     console.error("Erreur:", err);
                     result(err, null);
@@ -101,7 +102,7 @@ const user = {
         );
     },
     remove: (id: number, result: ResultCallback<{ affectedRows: number }>) => {
-        sql.query("DELETE FROM utilisateur WHERE user_id = ?", [id], (err, res) => {
+        sql.query("DELETE FROM utilisateur WHERE user_id = ?", [id], (err, res: ResultSetHeader) => {
             if (err) {
                 console.error("Erreur:", err);
                 result(err, null);
@@ -114,17 +115,6 @@ const user = {
             console.log("Utilisateur supprimé avec l'ID: ", id);
             result(null, res);
         });
-    },
-    removeAll: (result: ResultCallback<{ affectedRows: number }>) => {
-        sql.query("DELETE FROM utilisateur", (err, res) => {
-            if (err) {
-                console.error("Erreur:", err);
-                result(err, null);
-                return;
-            }
-            console.log(`Supprimé ${res.affectedRows} utilisateurs`);
-            result(null, res);
-        });       
     }
 };
 

@@ -189,19 +189,3 @@ exports.delete = (req: Request, res: Response) => {
     });
 };
 
-/**
- * Supprime tous les utilisateurs de la base de données.
- * @param {Object} req - La requête HTTP.
- * @param {Object} res - La réponse HTTP.
- */
-exports.deleteAll = (req: Request, res: Response) => {
-    User.removeAll((err: MySqlCustomError | null, data: userData[] | null) => {
-        if (err) {
-            return res.status(500).send({
-                message: err.message || "Une erreur est survenue lors de la suppression de tous les utilisateurs."
-            });
-        } else {
-            return res.send({ message: "Tous les utilisateurs ont été supprimés avec succès !" });
-        }
-    });
-};

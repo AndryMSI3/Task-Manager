@@ -97,8 +97,10 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
   },[]);
 
   useEffect(() => {
+    if (cardId) {
       editor?.commands.setContent(contents);
       fetchContentData();
+    }
   }, [contents]); 
 
   // Fermer le picker en cliquant en dehors
@@ -233,12 +235,13 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
           }
         };
         fetchUserData();
-        fetchContentData();
+        if(cardId) fetchContentData();
       }
     }
   }, [cardId]);
 
   const fetchContentData = async() => {
+    console.log("cardId ",cardId);
     fetch(`http://localhost:8080/contents/card/${cardId}`)
     .then(res => res.json())
     .then(data => {

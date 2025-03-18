@@ -34,7 +34,7 @@ export function Sidebar({ navData }: SidebarProps) {
   const toggleExpanded = (title: string) => {
     setExpandedItems((prev) => (prev.includes(title) ? [] : [title]));
   };
-
+  console.log("navData ",navData[0]);
   useEffect(() => {
     // Keep collapsible open when its subpage is active
     navData.some((section) => {
@@ -103,7 +103,9 @@ export function Sidebar({ navData }: SidebarProps) {
                   {section.label}
                 </h1>
 
-                {section.items && <nav role="navigation" aria-label={section.label}>
+                
+                <nav role="navigation" aria-label={section.label}>
+                  {section.label != "Tâches" && section.items.length != 0 ? 
                   <ul className="space-y-2">
                     {section.items.map((item) => (
                       <li key={item.title}>
@@ -125,9 +127,8 @@ export function Sidebar({ navData }: SidebarProps) {
                         )}
                       </li>
                     ))}
-                  </ul>
-                </nav>}
-                {!section.items && <p>Il n'y a pas de projet</p>}
+                  </ul>: <p>Aucune carte dans la base de données</p>}
+                </nav>
               </div>
             ))}
           </div>
