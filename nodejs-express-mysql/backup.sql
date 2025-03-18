@@ -33,16 +33,6 @@ CREATE TABLE `carte` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `carte`
---
-
-LOCK TABLES `carte` WRITE;
-/*!40000 ALTER TABLE `carte` DISABLE KEYS */;
-INSERT INTO `carte` VALUES (3,'Testoïde',1),(4,'Test III',1),(5,'Test II',1),(6,'Test V',1),(7,'Test VI',1),(8,'Essaie I',2),(9,'Essaie II',2),(10,'Try I',2),(11,'Test VIII',1),(12,'Essaie I',1),(13,'deuxTwo',1);
-/*!40000 ALTER TABLE `carte` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `commentaire`
 --
 
@@ -63,15 +53,6 @@ CREATE TABLE `commentaire` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `commentaire`
---
-
-LOCK TABLES `commentaire` WRITE;
-/*!40000 ALTER TABLE `commentaire` DISABLE KEYS */;
-INSERT INTO `commentaire` VALUES ('330918da-3356-4919-90b3-70d25ac339fb','Test III',4,1,NULL);
-/*!40000 ALTER TABLE `commentaire` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `contenue_carte`
@@ -89,16 +70,6 @@ CREATE TABLE `contenue_carte` (
   CONSTRAINT `contenue_carte_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `carte` (`card_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `contenue_carte`
---
-
-LOCK TABLES `contenue_carte` WRITE;
-/*!40000 ALTER TABLE `contenue_carte` DISABLE KEYS */;
-INSERT INTO `contenue_carte` VALUES (1,'\"<p style=\\\"text-align: center\\\"><span style=\\\"color: #f70b0b\\\"><u>Je suis content</u></span></p>\"',3),(2,'',4),(3,'',5),(4,'',6),(5,'',7),(6,'\"<p style=\\\"text-align: center\\\"><span style=\\\"color: #f70000\\\"><u>Je suis un contenue de test</u></span></p>\"',8),(7,'',9),(8,'',10),(9,'',11),(10,'',12),(11,'',13);
-/*!40000 ALTER TABLE `contenue_carte` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `utilisateur`
@@ -121,7 +92,7 @@ CREATE TABLE `utilisateur` (
 
 LOCK TABLES `utilisateur` WRITE;
 /*!40000 ALTER TABLE `utilisateur` DISABLE KEYS */;
-INSERT INTO `utilisateur` VALUES (1,'admin','$2b$10$1vJ7uNx0NhD94l9ovVUAcuaNFKMOBdAnicxAEQnLZNsewqxX4AnNi'),(2,'deuxTwo','$2b$10$HyJTxks2vcDMonuE2vFcZOSGd9xB8/giaiIUYYWHL1TMliPoNIIPq');
+INSERT INTO `utilisateur` VALUES (1,'admin','$2b$10$1vJ7uNx0NhD94l9ovVUAcuaNFKMOBdAnicxAEQnLZNsewqxX4AnNi');
 /*!40000 ALTER TABLE `utilisateur` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
