@@ -90,7 +90,7 @@ export function SignInForm() {
             {errorMessage && <p style={{ color: 'red', margin: 'unset' }}>{errorMessage}</p>}
           </div>
           <button className="flex w-full justify-center rounded-lg bg-primary p-[13px] font-medium text-white hover:bg-opacity-90">
-            Sign In
+            Se connecter
           </button>
         </form>
       </ShowcaseSection>
