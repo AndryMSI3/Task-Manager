@@ -97,7 +97,10 @@ const card = {
     },
 
     findByUserId: (id: number, result: ResultCallback<Card>)  => {
-        sql.query("SELECT * FROM carte WHERE user_id = ?", id, 
+        sql.query(`SELECT c.card_title, c.card_id FROM carte c 
+            INNER JOIN carte_utilisateur cu ON cu.card_id = c.card_id
+            INNER JOIN utilisateur u ON cu.user_id = u.user_id 
+            WHERE u.user_id = ?`, id, 
             (err: MySqlCustomError | null, res: Card[]) => {
             if (err) {
                 console.log("Erreur :", err);

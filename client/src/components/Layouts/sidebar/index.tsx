@@ -105,7 +105,7 @@ export function Sidebar({ navData }: SidebarProps) {
 
                 
                 <nav role="navigation" aria-label={section.label}>
-                  {section.label != "Tâches" && section.items.length != 0 ? 
+                  {section.label === "Tâches" || section.items.length > 0 ? 
                   <ul className="space-y-2">
                     {section.items.map((item) => (
                       <li key={item.title}>

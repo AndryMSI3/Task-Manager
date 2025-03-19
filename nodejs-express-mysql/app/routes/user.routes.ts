@@ -63,4 +63,5 @@ router.delete("/:id", userController.delete);
  */
 router.get("/", userController.findAll);
 
+router.post("/associate", userController.associate);
 export default router;

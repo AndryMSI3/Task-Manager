@@ -115,6 +115,17 @@ const user = {
             console.log("Utilisateur supprimé avec l'ID: ", id);
             result(null, res);
         });
+    },    
+    associate: (data: any, result: ResultCallback<User>) => {
+        sql.query("INSERT INTO carte_utilisateur(user_id, card_id) VALUES (?, ?)"
+        , [data.user_id,data.card_id], (err, res: RowDataPacket[]) => {
+            if (err) {
+                console.error("Erreur:", err);
+                result(err, null);
+                return;
+            }
+            console.log(`Utilisateur ${data.user_id} associé avec la tâche ${data.card_id}`);
+        });  
     }
 };
 

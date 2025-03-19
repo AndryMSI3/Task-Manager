@@ -1,22 +1,16 @@
-import React, { useState, useRef, memo } from "react";
+import React, { useState, useRef, memo, useEffect } from "react";
 import styles from '../components/css/Modal.module.css';
 import useFetch from "@/components/function/fetch";
 import { Button } from "@/components/ui-elements/button";
 import InputGroup from "@/components/FormElements/InputGroup"; 
-interface column {
-    items: any[];
-    name: string;
-    statusId: number;
+import MultiSelect from "@/components/FormElements/MultiSelect";
+
+interface userData {
+    text: string,
+    value: string,
+    selected: boolean
 }
 
-interface CardIdResponse {
-    max_id: number;
-}
-
-interface columnData {
-    name: string;
-    columns: column[];
-}
 /**
  * Composant pour créer une nouvelle carte dans une colonne.
  * 
@@ -24,11 +18,14 @@ interface columnData {
  * @param {Array} props.columnData - Les données de la colonne contenant les informations des tâches.
  */
 function CreateCard({ onCardAdded, closeModal }: { onCardAdded: () => void, closeModal: () => void }) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const [fetchData] = useFetch();
     const userId = localStorage.getItem("userConnectedId") as string;
     const titleRef = useRef<HTMLInputElement | null>(null);
-
+    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+    const handleSelectionChange = (newSelectedValues: string[]) => {
+        setSelectedOptions(newSelectedValues);
+    };  
 
     /**
      * Gère la soumission du formulaire pour créer une nouvelle carte.
@@ -46,15 +43,19 @@ function CreateCard({ onCardAdded, closeModal }: { onCardAdded: () => void, clos
                 await fetchData(urlCreateCard, methodPost, cardDataNames, cardDataValues);
 
                 const maxCardId= await fetchData('http://localhost:8080/cards/card/maxId');
-                const urlCreateContent = 'http://localhost:8080/contents/create';
-                const contentDataNames = ["content", "card_id"];
                 if (!Array.isArray(maxCardId) || maxCardId.length === 0) {
                     console.error("Données invalides :", maxCardId);
                     return;
                 }
+                const urlCreateContent = 'http://localhost:8080/contents/create';
+                const contentDataNames = ["content", "card_id"];
                 const contentDataValues = ["", maxCardId[0]?.max_id.toString()];
                 await fetchData(urlCreateContent, methodPost, contentDataNames, contentDataValues);
-
+                const urlAssociate = "http://localhost:8080/users/associate";
+                const associateDataNames = ["user_id", "card_id"];
+                selectedOptions.forEach(option => {
+                    fetchData(urlAssociate,methodPost,associateDataNames,[option,maxCardId[0]?.max_id.toString()]);
+                });
                 
             } catch (err) {
                 console.log(err instanceof Error ? err.message : err);
@@ -80,6 +81,10 @@ function CreateCard({ onCardAdded, closeModal }: { onCardAdded: () => void, clos
                                 label="" 
                                 placeholder=""
                             />
+                        </label>
+                        <label htmlFor="TitleInput" className={styles.formLabel}>
+                            Selectionner les utilisateurs:
+                            <MultiSelect id="dropdown" onChange={handleSelectionChange} />
                         </label>
                         <Button             
                             label="Valider" 

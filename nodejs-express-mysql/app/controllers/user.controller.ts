@@ -189,3 +189,22 @@ exports.delete = (req: Request, res: Response) => {
     });
 };
 
+exports.associate = (req: Request, res: Response) => {
+
+    // Valide la requête
+    if (!req.body) {
+        return res.status(400).send({
+            message: "Le contenu ne peut pas être vide !"
+        });
+    }
+
+    User.associate(req.body, (err: MySqlCustomError, data: userData | null) => {
+        if (err) {
+            return res.status(500).send({
+                message: "Erreur lors de la suppression de l'utilisateur avec l'ID " + req.params.id
+            });
+        } else {
+            return res.send({ message: "Utilisateur associé avec succès !" });
+        }
+    });
+};

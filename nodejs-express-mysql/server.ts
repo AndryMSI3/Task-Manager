@@ -160,14 +160,15 @@ app.post(
                 res.status(500).send({ error: "Error while hashing password" });
                 return;
             }
-            sql.query("INSERT INTO utilisateur(user_name, password, privilege, user_picture) VALUES (?, ?, ?, ?)",
-                [userName, hashedPassword, privilege, userPicture], (err: Error | null, result: any) => {
+            sql.query("INSERT INTO utilisateur(user_name, password) VALUES (?, ?)",
+                [userName, hashedPassword], (err: Error | null, result: any) => {
                     if (err) {
                         console.log("error:", err); 
                         res.status(500).send({ error: "Internal Server Error" });
                         return;
                     }
-                    res.send({ userPicture, userName, hashedPassword, privilege });
+                    console.log("✅ Utilisateur crée avec succès !")
+                    res.send({userName, hashedPassword });
                 });
         });
     });

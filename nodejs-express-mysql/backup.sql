@@ -29,8 +29,43 @@ CREATE TABLE `carte` (
   PRIMARY KEY (`card_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `carte_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `utilisateur` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `carte`
+--
+
+LOCK TABLES `carte` WRITE;
+/*!40000 ALTER TABLE `carte` DISABLE KEYS */;
+/*!40000 ALTER TABLE `carte` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `carte_utilisateur`
+--
+
+DROP TABLE IF EXISTS `carte_utilisateur`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `carte_utilisateur` (
+  `card_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  PRIMARY KEY (`card_id`,`user_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `carte_utilisateur_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `carte` (`card_id`) ON DELETE CASCADE,
+  CONSTRAINT `carte_utilisateur_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `utilisateur` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `carte_utilisateur`
+--
+
+LOCK TABLES `carte_utilisateur` WRITE;
+/*!40000 ALTER TABLE `carte_utilisateur` DISABLE KEYS */;
+/*!40000 ALTER TABLE `carte_utilisateur` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `commentaire`
@@ -53,6 +88,14 @@ CREATE TABLE `commentaire` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `commentaire`
+--
+
+LOCK TABLES `commentaire` WRITE;
+/*!40000 ALTER TABLE `commentaire` DISABLE KEYS */;
+/*!40000 ALTER TABLE `commentaire` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `contenue_carte`
@@ -67,9 +110,18 @@ CREATE TABLE `contenue_carte` (
   `card_id` int NOT NULL,
   PRIMARY KEY (`content_id`),
   KEY `card_id` (`card_id`),
-  CONSTRAINT `contenue_carte_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `carte` (`card_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `contenue_carte_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `carte` (`card_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contenue_carte`
+--
+
+LOCK TABLES `contenue_carte` WRITE;
+/*!40000 ALTER TABLE `contenue_carte` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contenue_carte` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `utilisateur`
@@ -83,7 +135,7 @@ CREATE TABLE `utilisateur` (
   `user_name` varchar(30) NOT NULL,
   `password` varchar(80) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,4 +157,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-17 18:36:26
+-- Dump completed on 2025-03-19  9:46:32

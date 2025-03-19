@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   title: "Form Elements",
 };
 
+
 export default function FormElementsPage() {
   return (
     <>
@@ -108,8 +109,7 @@ export default function FormElementsPage() {
               ]}
               defaultValue="USA"
               prefixIcon={<GlobeIcon />}
-            />
-            <MultiSelect id="multiSelect" />
+            />            
           </ShowcaseSection>
 
           <ShowcaseSection
