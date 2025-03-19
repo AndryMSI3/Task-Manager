@@ -71,20 +71,20 @@ export function SignInForm() {
 
   return (
     <div className="mt-11">
-      <ShowcaseSection title="Sign In" boxWidth="60%" className="!p-6.5">
+      <ShowcaseSection title="Se connecter" boxWidth="60%" className="!p-6.5">
         <form onSubmit={handleLoginSubmit} >
           <InputGroup
-            label="Username"
+            label="Nom d'utilisateur"
             type="text"
             inputRef={userNameRef}
-            placeholder="Enter your username"
+            placeholder="Entrer votre nom d'utilisateur"
           />
 
           <InputGroup
-            label="Password"
+            label="Mot de passe"
             type="password"
             inputRef={passwordRef}          
-            placeholder="Enter your password"
+            placeholder="Entrer votre mot de passe"
           />
           <div className="mb-2.5 mt-4 flex items-center justify-between">
             {errorMessage && <p style={{ color: 'red', margin: 'unset' }}>{errorMessage}</p>}
