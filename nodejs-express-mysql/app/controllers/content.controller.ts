@@ -15,7 +15,6 @@ interface cardContent {
  */
 exports.createCardContent = 
     (req: Request, res: Response) => {
-    console.log("req.body ",req.body);
     // Valide la requête
     if (!req.body) {
         res.status(400).send({

@@ -4,12 +4,11 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import sql = require("./app/models/db");
+import { initializeDatabase } from './app/models/db';
 import multer from "multer";
 import { validationResult } from "express-validator";
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { exec } from 'child_process';
-import path from 'path';
 
 /**
  *  Ce fichier est le point d'entrée de l'API
@@ -58,68 +57,15 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
   
-// Vérifier si la base de données existe et la créer si nécessaire
-const checkAndCreateDatabase = () => {
-    const databaseName = 'cardManager';  // Le nom de la base de données à vérifier
-    const backupFilePath = path.join(__dirname, 'backup.sql'); // Chemin du fichier de backup
-    
-    // Vérifier si la base de données existe déjà
-    sql.query(`SHOW DATABASES LIKE ?`,[databaseName],(err, rows: any) => {
-      if (err) {
-        console.error('❌ Erreur lors de la vérification de la base de données:', err);
-        return;
-      }
-  
-      if (rows.length > 0) {
-        console.log(`✅ La base de données "${databaseName}" existe déjà.`);
-        sql.useDatabase(databaseName,(err)=>{
-          if (err) {
-            console.log(`❌ Erreur lors de la connexion à la base de données "${databaseName}"`);
-            return;   
-          }
-          console.log(`✅ connexion à la de données ${databaseName} réussi.`);
-        })
 
-      } else {
-        console.log(`❌ La base de données "${databaseName}" n'existe pas.`);
-        // Créer la base de données si elle n'existe pas
-        sql.query(`CREATE DATABASE ${databaseName}`,[],(err) => {
-          if (err) {
-            console.error('❌ Erreur lors de la création de la base de données:', err);
-            return;
-          }
-          console.log(`🛠 Base de données "${databaseName}" créée.`);
-          importBackup();
-        });
-      }
-    });
-  
-    // Fonction pour importer le fichier de backup
-    const importBackup = () => {
-      exec(`mysql --defaults-extra-file=${path.join(__dirname, '.my.cnf')} ${databaseName} < ${backupFilePath}`, (error, stdout, stderr) => {
-        if (error) {
-          console.error(`❌ Erreur lors de l'importation du backup : ${error.message}`);
-          return;
-        }
-        if (stderr) {
-          console.error(`❌ Erreur lors de l'importation du backup : ${stderr}`);
-          return;
-        }
-        console.log(`✅ Backup ${databaseName} importé avec succès.`);
-        sql.useDatabase(databaseName,(err)=>{
-          if (err) {
-            console.log(`❌ Erreur lors de la connexion à la base de données "${databaseName}"`);
-            return;   
-          }
-          console.log(`✅ connexion à la de données ${databaseName} réussi.`);
-        })
-        
-      });
-    };
-  };
-  
-  // Lancer la vérification et création de la base de données
-  checkAndCreateDatabase();
+initializeDatabase((err) => {
+    if (err) {
+        console.error("❌ Erreur lors de l'initialisation de la base :", err);
+        process.exit(1); // Arrêter le serveur si la BD ne peut pas être initialisée
+    } else {
+        console.log("🚀 Serveur prêt !");
+    }
+});
 
 /**
  * C'est le point d'entrée qui permet de créer un nouvel utilisateur.

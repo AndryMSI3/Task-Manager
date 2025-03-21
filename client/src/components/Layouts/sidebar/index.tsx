@@ -14,17 +14,20 @@ interface SidebarProps {
   navData: {
     label: string;
     items: {
+      id?: string | number; // Ajout de l'id optionnel
       title: string;
       url?: string; // Toujours optionnel ici
       activateAction?: () => void;
       items: {
+        id?: string | number; // Ajout de l'id optionnel pour éviter les erreurs
         title: string;
-        url: string; // Obligatoire pour éviter les erreurs de type
+        url?: string; // Rendu optionnel pour correspondre à ton `navData`
         activateAction?: () => void;
       }[];
     }[];
   }[];
 }
+
 
 export function Sidebar({ navData }: SidebarProps) {
   const pathname = usePathname();
@@ -34,7 +37,6 @@ export function Sidebar({ navData }: SidebarProps) {
   const toggleExpanded = (title: string) => {
     setExpandedItems((prev) => (prev.includes(title) ? [] : [title]));
   };
-  console.log("navData ",navData[0]);
   useEffect(() => {
     // Keep collapsible open when its subpage is active
     navData.some((section) => {
@@ -105,13 +107,12 @@ export function Sidebar({ navData }: SidebarProps) {
 
                 
                 <nav role="navigation" aria-label={section.label}>
-                  {section.label === "Tâches" || section.items.length > 0 ? 
+                  {section.label !== "Tâches" || section.items.length > 0 ? 
                   <ul className="space-y-2">
                     {section.items.map((item) => (
-                      <li key={item.title}>
+                      <li key={item.id+""+item.title}>
                         {(
                           (() => {
-                            
                             return (
                                 <MenuItem
                                   isActive={pathname === item.url} // Vérifie si l'élément est actif (utile pour les liens)

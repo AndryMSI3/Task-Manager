@@ -31,7 +31,7 @@
   margin-right: 1vw;
 }
 
-.form .postBtn {
+.form .postBtn .cancelBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -52,7 +52,7 @@
   margin-right: 1vw;
 }
 
-.form .postBtn:hover {
+.form .postBtn:hover .cancelBtn:hover{
   padding-bottom: 9px;
   padding-top: 9px;
   padding-right: 35px;

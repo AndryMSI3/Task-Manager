@@ -45,7 +45,6 @@ exports.findUser = (req: Request, res: Response) => {
  */
 
 exports.login = (req: Request, res: Response) => {
-    console.log(req.body);
     // Valide la requête
     if (!req.body || req.body.password == '' || req.body.user_name == '') {
         return res.status(400).send({

@@ -54,7 +54,6 @@ const CreateUserModal = ({ closeUserCreating }: { closeUserCreating: (valeur: bo
 
     // Fonction pour gérer la création de l'utilisateur
     const handleCreateUser = async () => {
-        console.log("create user");
         const userName = userNameRef.current?.value;
         const password = passwordRef.current?.value;
 
@@ -149,7 +148,7 @@ const CreateUserModal = ({ closeUserCreating }: { closeUserCreating: (valeur: bo
                             <label>
                                 <b>Choisir photo de profil</b>
                                 <p style={{ color: 'grey', fontSize: 'small', margin: 'unset' }}>
-                                    Seuls les formats d'images sont autorisés.
+                                    Seuls les formats d&aposimages sont autorisés.
                                 </p>
                                 <InputGroup
                                     type="file"
@@ -176,7 +175,7 @@ const CreateUserModal = ({ closeUserCreating }: { closeUserCreating: (valeur: bo
 
                             {/* Champ du nom d'utilisateur */}
                             <label style={{ marginTop: "5px" }}>
-                                <b>Nom d'utilisateur:</b>
+                                <b>Nom d&apos;utilisateur:</b>
                                 <p style={{ color: 'grey', fontSize: 'small', margin: 'unset' }}>
                                     Seules les lettres majuscules et minuscules sont autorisées
                                 </p>

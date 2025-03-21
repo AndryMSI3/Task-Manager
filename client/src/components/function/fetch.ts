@@ -24,7 +24,6 @@ function useFetch() {
     }
 
     try {
-      console.log("fetchParameter ",fetchParameter);
       const response = await fetch(url, fetchParameter);
       if (!response.ok) {
         const errorData = await response.json(); // Récupérer la réponse JSON (qui contient le message d'erreur)

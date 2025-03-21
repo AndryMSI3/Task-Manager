@@ -23,8 +23,9 @@ const MultiSelect: React.FC<DropdownProps> = ({ id, onChange }) => {
   const open = () => setShow(true);
 
   const close = () => setShow(false);
-
+  console.log("Mulitselect component");
   useEffect(() => {
+    console.log("Fetching the user");
     fetch("http://localhost:8080/users/")
         .then((rawData) => rawData.json())
         .then((userList: { user_id: number; user_name: string }[]) => {
@@ -34,8 +35,12 @@ const MultiSelect: React.FC<DropdownProps> = ({ id, onChange }) => {
                 selected: false
             }));
             setOptions(formattedData);
+        })
+        .catch((error) => {
+          console.error("Erreur lors de la récupération des utilisateurs :", error);
         });
   }, []);
+
   const select = (index: number, event: React.MouseEvent) => {
     const newOptions = [...options];
     if (!newOptions[index].selected) {

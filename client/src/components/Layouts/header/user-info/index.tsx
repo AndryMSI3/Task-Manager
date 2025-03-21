@@ -18,7 +18,7 @@ export function UserInfo() {
   const [USER, setUSER] = useState({
     name: "",
     email: "",
-    img: "/images/default-user.png", // Image par défaut au cas où user_picture est null
+    img: "/images/default.png", // Image par défaut au cas où user_picture est null
   });
   useEffect(() => {
     const userId = localStorage.getItem("userConnectedId");

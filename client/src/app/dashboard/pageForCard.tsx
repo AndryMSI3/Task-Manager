@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { CommentSection } from "react-comments-section";
 import { Button } from "@/components/ui-elements/button";
 import "react-comments-section/dist/index.css";
 import Bold from "@tiptap/extension-bold";
@@ -19,7 +18,9 @@ import { faBold, faItalic, faUnderline,faAlignLeft, faAlignCenter, faAlignRight,
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ChromePicker } from "react-color";
 import Image from "@tiptap/extension-image";
-import '../components/css/CardPage.css';
+// import dynamic from "next/dynamic";
+import Comments from "./Comments";
+// const Comments = dynamic(import("./Comments"),{ssr:false})
 
 interface Comment {
   userId: string;
@@ -56,18 +57,7 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [contents, setContents] = useState<string | null>(null);
 
-  const handleSubmitComment = (comment: any) => {
-    fetch('http://localhost:8080/comments/create', {
-      method: 'POST',
-      body: JSON.stringify({
-        comment: comment,
-        cardId: comment?.repliedToCommentId? null : cardId
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    }); 
-  };
+
 
   const editor = useEditor({
     extensions: [
@@ -101,7 +91,7 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
       editor?.commands.setContent(contents);
       fetchContentData();
     }
-  }, [contents]); 
+  }, [contents,cardId]); 
 
   // Fermer le picker en cliquant en dehors
   useEffect(() => {
@@ -230,6 +220,7 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
             const response = await fetch(`http://localhost:8080/users/${userId}`);
             const data = await response.json();
             setCurrentUserData(data);
+            console.log("CurrentUserData ",data);
           } catch (error) {
             console.log("Error fetching user data: ", error);
           }
@@ -241,7 +232,6 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
   }, [cardId]);
 
   const fetchContentData = async() => {
-    console.log("cardId ",cardId);
     fetch(`http://localhost:8080/contents/card/${cardId}`)
     .then(res => res.json())
     .then(data => {
@@ -315,7 +305,6 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
                 <option value="Tahoma">Tahoma</option>
               </select>
               <div>
-                {/* Fenêtre Modal avec le color picker */}
                 <button
                   onClick={() => setIsPickerVisible(!isPickerVisible)}
                   className="color-button"
@@ -343,9 +332,7 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
               </button>
             </div>
           }
-          {/* Affichage du ChromePicker quand isPickerVisible est true */}
 
-          {/* Éditeur */}
           <EditorContent editor={editor}   
             style={{
               border: 'none',
@@ -386,28 +373,15 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
             label="Enregistrer" 
             variant="outlinePrimary" 
             shape="rounded" 
-          />
-          {currentUserData && (
-            <CommentSection  
-              removeEmoji={true}     
-              currentUser={{
-                currentUserId: userId as string,
-                currentUserImg: currentUserData?.user_picture? 
-                `http://localhost:3000/images/${currentUserData.user_picture}`
-                  : 'http://localhost:3000/images/default.png',
-                currentUserProfile: 'http://localhost:3000/profile',
-                currentUserFullName: currentUserData.user_name,
-              }}
-              logIn={{
-                onLogin: () => alert('call login function'),
-                signUpLink: 'http://localhost:3001/',
-              }}
-              commentData={comments}
-              onReplyAction={(data: string) => handleSubmitComment(data)}
-              onSubmitAction={(data: string) => handleSubmitComment(data)}
-            />
-          )}
-        </div>
+           />
+          <Comments 
+            userId={userId as string} 
+            cardId={cardId}   
+            currentUserData={currentUserData}
+            comments={comments}
+          /> 
+
+      </div>
     </>
   );
 };

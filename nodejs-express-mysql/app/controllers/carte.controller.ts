@@ -23,7 +23,6 @@ exports.createCard = (req: Request, res: Response) => {
         });
         return;
     }
-
     // Sauvegarde de la carte dans la base de données
     card.create(req.body, (err: MySqlCustomError | null, data: cardData[] | null) => {
         if (err)

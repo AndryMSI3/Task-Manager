@@ -1,102 +1,111 @@
-import React, { useState, useRef, memo, useEffect } from "react";
+import React, { useState, useRef, memo, useCallback } from "react";
 import styles from '../components/css/Modal.module.css';
 import useFetch from "@/components/function/fetch";
 import { Button } from "@/components/ui-elements/button";
 import InputGroup from "@/components/FormElements/InputGroup"; 
 import MultiSelect from "@/components/FormElements/MultiSelect";
 
-interface userData {
-    text: string,
-    value: string,
-    selected: boolean
+interface task {
+    card_id: number,
+    card_title: string,
+    user_id: number
 }
 
-/**
- * Composant pour créer une nouvelle carte dans une colonne.
- * 
- * @param {Object} props - Les propriétés du composant.
- * @param {Array} props.columnData - Les données de la colonne contenant les informations des tâches.
- */
-function CreateCard({ onCardAdded, closeModal }: { onCardAdded: () => void, closeModal: () => void }) {
+interface CreateCardResponse {
+    id: number;
+    card_title: string;
+    options: string;
+}
+  
 
+  
+function CreateCard({ setTaskList, closeModal }: { 
+    setTaskList: React.Dispatch<React.SetStateAction<task[]>>, 
+    closeModal: () => void 
+}) { 
+    console.log("Create card components");
     const [fetchData] = useFetch();
     const userId = localStorage.getItem("userConnectedId") as string;
     const titleRef = useRef<HTMLInputElement | null>(null);
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-    const handleSelectionChange = (newSelectedValues: string[]) => {
-        setSelectedOptions(newSelectedValues);
-    };  
+    const [selectedOptions, setSelectedOptions] = useState<string[]>(['8','7']);
 
-    /**
-     * Gère la soumission du formulaire pour créer une nouvelle carte.
-     * 
-     * @param {Event} e - L'événement de soumission.
-     */
+    // Utilisation de useCallback pour éviter la recréation de la fonction de gestion des changements de sélection
+    const handleSelectionChange = useCallback((newSelectedValues: string[]) => {
+        setSelectedOptions(newSelectedValues);
+    }, []);  // Cette fonction ne change jamais, donc elle sera mémorisée.
+
     const handleSubmit = async () => {
         const cardTitle = titleRef.current?.value || "";
         const urlCreateCard = 'http://localhost:8080/cards/create';
         const methodPost = 'POST';
-        const cardDataNames = ["user_id","card_title"];
-        const cardDataValues = [userId,cardTitle];
-        if (cardTitle !== "") {   
+        const cardDataNames = ["card_title", "options"];
+        const cardDataValues: string[] = [cardTitle, selectedOptions.join(',')]; // Joindre les options en une seule chaîne
+    
+        if (cardTitle !== "") {
             try {
-                await fetchData(urlCreateCard, methodPost, cardDataNames, cardDataValues);
-
-                const maxCardId= await fetchData('http://localhost:8080/cards/card/maxId');
-                if (!Array.isArray(maxCardId) || maxCardId.length === 0) {
-                    console.error("Données invalides :", maxCardId);
+                const response = await fetchData(urlCreateCard, methodPost, cardDataNames, cardDataValues);
+    
+                // Vérifier si la réponse contient une erreur
+                if (!response || response.error) {
+                    console.error("Erreur lors de la création de la carte :", response);
                     return;
                 }
-                const urlCreateContent = 'http://localhost:8080/contents/create';
-                const contentDataNames = ["content", "card_id"];
-                const contentDataValues = ["", maxCardId[0]?.max_id.toString()];
-                await fetchData(urlCreateContent, methodPost, contentDataNames, contentDataValues);
-                const urlAssociate = "http://localhost:8080/users/associate";
-                const associateDataNames = ["user_id", "card_id"];
-                selectedOptions.forEach(option => {
-                    fetchData(urlAssociate,methodPost,associateDataNames,[option,maxCardId[0]?.max_id.toString()]);
-                });
-                
+    
+                // Caster la réponse en type attendu
+                const createCardResponse = response as { id: number; card_title: string; options: string };
+    
+                // Vérifier si userId est contenu dans options
+                const optionsArray = createCardResponse.options.split(','); // Convertir en tableau
+                if (optionsArray.includes(userId)) {
+                    // Ajouter la carte uniquement si userId est dans options
+                    setTaskList(prevTasks => [
+                        { card_id: createCardResponse.id, card_title: cardTitle, user_id: Number(userId) },
+                        ...prevTasks
+                    ]);
+                }
+    
+                closeModal();
             } catch (err) {
-                console.log(err instanceof Error ? err.message : err);
+                console.error("Erreur détectée :", err instanceof Error ? err.message : err);
+                closeModal();
             }
+        } else {
+            console.log("Titre de la carte vide, soumission annulée.");
+            closeModal();
         }
-        // window.location.reload();
-        onCardAdded(); // Met à jour les colonnes dans le Kanban
-        closeModal();
     };
+    
+    
 
     return (
-        <>
-            <div className={styles.modal}>
-                <div className={styles.modalContentForm}>
-                        <button onClick={closeModal} className={styles.closeButton}>
-                            &times;
-                        </button>
-                        <label htmlFor="TitleInput" className={styles.formLabel}>
-                            Titre de la tâche:
-                            <InputGroup 
-                                type="text"  
-                                inputRef={titleRef} 
-                                label="" 
-                                placeholder=""
-                            />
-                        </label>
-                        <label htmlFor="TitleInput" className={styles.formLabel}>
-                            Selectionner les utilisateurs:
-                            <MultiSelect id="dropdown" onChange={handleSelectionChange} />
-                        </label>
-                        <Button             
-                            label="Valider" 
-                            variant="green" 
-                            shape="rounded" 
-                            size={"customSmall"}
-                            className="flex w-30 mb-5 p-2"
-                            onClick={() => handleSubmit()} 
-                        />
-                </div>
+        <div className={styles.modal}>
+            <div className={styles.modalContentForm}>
+                <button onClick={closeModal} className={styles.closeButton}>
+                    &times;
+                </button>
+                <label htmlFor="TitleInput" className={styles.formLabel}>
+                    Titre de la tâche:
+                    <InputGroup 
+                        type="text"  
+                        inputRef={titleRef} 
+                        label="" 
+                        placeholder="Entrez un titre"
+                    />
+                </label>
+                <label htmlFor="UserSelection" className={styles.formLabel}>
+                    Sélectionner les utilisateurs:
+                    <MultiSelect id="dropdown" onChange={handleSelectionChange} />
+                </label>
+                <Button             
+                    label="Valider" 
+                    variant="green" 
+                    shape="rounded" 
+                    size="customSmall"
+                    className="flex w-30 mb-5 p-2"
+                    onClick={handleSubmit} 
+                />
             </div>
-        </>
+        </div>
     );
 }
 
