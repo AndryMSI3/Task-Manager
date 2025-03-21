@@ -25,11 +25,8 @@ DROP TABLE IF EXISTS `carte`;
 CREATE TABLE `carte` (
   `card_id` int NOT NULL AUTO_INCREMENT,
   `card_title` varchar(100) DEFAULT NULL,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`card_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `carte_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `utilisateur` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`card_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=270 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,8 +74,8 @@ DROP TABLE IF EXISTS `commentaire`;
 CREATE TABLE `commentaire` (
   `comment_id` varchar(50) NOT NULL,
   `text` text NOT NULL,
-  `card_id` int NOT NULL,
-  `user_id` int NOT NULL,
+  `card_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
   `replied_to_comment_id` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`comment_id`),
   KEY `card_id` (`card_id`),
@@ -111,7 +108,7 @@ CREATE TABLE `contenue_carte` (
   PRIMARY KEY (`content_id`),
   KEY `card_id` (`card_id`),
   CONSTRAINT `contenue_carte_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `carte` (`card_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=261 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,7 +132,7 @@ CREATE TABLE `utilisateur` (
   `user_name` varchar(30) NOT NULL,
   `password` varchar(80) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +141,7 @@ CREATE TABLE `utilisateur` (
 
 LOCK TABLES `utilisateur` WRITE;
 /*!40000 ALTER TABLE `utilisateur` DISABLE KEYS */;
-INSERT INTO `utilisateur` VALUES (1,'admin','$2b$10$1vJ7uNx0NhD94l9ovVUAcuaNFKMOBdAnicxAEQnLZNsewqxX4AnNi');
+INSERT INTO `utilisateur` VALUES (5,'Kanto','$2b$10$9Fm6c2O3Za97dMW6m5ayNu4Sne2TgqMihS4iaJ0iEhsTOajqZy3d.'),(6,'Rasoa','$2b$10$n9MA8g0WVfwFxL4mePGtb.a7j225QZNU7B/NWrIuYN5h0UPMLz6pC'),(7,'Rakoto','$2b$10$TKqrFgxLrLz4HLDf4XxZXu10fDyIOD9.p83v9UCJCTNqLhzj4X7TG'),(8,'Sarah','$2b$10$An9mmOTklArQN5Ib7qfkB.L5oNH.aA8fPzEkW5Tx/V2FHJNEhMfVC'),(9,'Ranaivo','$2b$10$yk9ZblHxeV9PodeaA4mesOWN3UT8X8vnvMA8CsLk7eHehU/fmw.YW'),(10,'Boris','$2b$10$yBIyNX1JguB/hp0UsXy1NuFU8J6Ix5HXpPXUQLu4qwoVdb0Kdv4Lm'),(11,'Vladimir','$2b$10$tebajWIrxOZGNJvo03pxTeL1J2K0ai7hPt2GBdVwyV6pq.DstA2ga');
 /*!40000 ALTER TABLE `utilisateur` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -157,4 +154,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-19  9:46:32
+-- Dump completed on 2025-03-21 15:49:47
