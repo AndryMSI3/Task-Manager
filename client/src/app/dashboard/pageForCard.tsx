@@ -16,7 +16,7 @@ import FontFamily from '@tiptap/extension-font-family';
 import TextStyle from "@tiptap/extension-text-style"; // ✅ Ajout
 import { faBold, faItalic, faUnderline,faAlignLeft, faAlignCenter, faAlignRight, faTextHeight, faFont  } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ChromePicker } from "react-color";
+import { ChromePicker, ColorResult } from "react-color";
 import Image from "@tiptap/extension-image";
 // import dynamic from "next/dynamic";
 import Comments from "./Comments";
@@ -40,17 +40,10 @@ interface Comment {
   }[];
 }
 
-interface reply {
-  user_id: number;
-  reply_id: number;
-  text: any;
-  repliedToCommentId: number;
-}
 
 const CardPage = ({ cardId }:{ cardId: number }) => {
   const userId = localStorage.getItem("userConnectedId");
   const [isEditMode, setIsEditMode] = useState(false);
-  const [currentUserData, setCurrentUserData] = useState<any>({});
   const pickerRef = useRef<HTMLDivElement | null>(null); // Référence pour le picker
   const [color, setColor] = useState("#000000");
   const [isPickerVisible, setIsPickerVisible] = useState(false); // Gère l'affichage du ChromePicker
@@ -125,7 +118,7 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
       });
   
       if (response.ok) {
-        console.log("Contenu enregistré avec succès !");
+        ("Contenu enregistré avec succès !");
       } else {
         console.error("Erreur lors de l'enregistrement :", response.statusText);
       }
@@ -145,12 +138,12 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
   
         if (!commentsData) return setComments([]);
   
-        const commentPromises = commentsData.map(async (comment: any) => {
+        const commentPromises = commentsData.map(async (comment: Comment) => {
           try {
-            const userResponse = await fetch(`http://localhost:8080/users/${comment.user_id}`);
+            const userResponse = await fetch(`http://localhost:8080/users/${comment.userId}`);
             const userData = await userResponse.json();
   
-            const repliesResponse = await fetch(`http://localhost:8080/comments/card/replies/${comment.comment_id}`);
+            const repliesResponse = await fetch(`http://localhost:8080/comments/card/replies/${comment.comId}`);
             const repliesData = await repliesResponse.json();
   
             // Récupération des utilisateurs ayant fait des replies
@@ -177,8 +170,8 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
             const formattedReplies = (await Promise.all(replyPromises)).filter(Boolean);
   
             return {
-              userId: String(comment.user_id),
-              comId: comment.comment_id,
+              userId: String(comment.userId),
+              comId: comment.comId,
               fullName: userData.user_name,
               text: comment.text,
               avatarUrl: `http://localhost:3000/images/${userData.user_picture || "default.png"}`,
@@ -201,7 +194,7 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
   }, [cardId]);
     
   // Fonction qui change la couleur du texte sélectionné
-  const handleColorChange = (color: any) => {
+  const handleColorChange = (color: ColorResult) => {
     setColor(color.hex); // Mise à jour de l'état avec la couleur sélectionnée
     if (editor) {
       editor.chain().focus().setMark("textStyle", { color: color.hex }).run();
@@ -214,19 +207,8 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
       if (!userId) return; // Vérifie que userId existe avant d'appeler setState
       // setUserConnectedId(userId);
 
-      if (userId) {
-        const fetchUserData = async () => {
-          try {
-            const response = await fetch(`http://localhost:8080/users/${userId}`);
-            const data = await response.json();
-            setCurrentUserData(data);
-            console.log("CurrentUserData ",data);
-          } catch (error) {
-            console.log("Error fetching user data: ", error);
-          }
-        };
-        fetchUserData();
-        if(cardId) fetchContentData();
+      if (userId && cardId) {
+          fetchContentData();
       }
     }
   }, [cardId]);
@@ -377,7 +359,6 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
           <Comments 
             userId={userId as string} 
             cardId={cardId}   
-            currentUserData={currentUserData}
             comments={comments}
           /> 
 

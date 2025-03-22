@@ -26,7 +26,7 @@ exports.createComment = (req: Request, res: Response) => {
     }
 
     // Sauvegarde le commentaire dans la base de données
-    comment.create(req.body.comment,req.body.cardId, (err: MySqlCustomError | null, data: Comment[] | null) => {
+    comment.create(req.body.comment,req.body.cardId,(err: MySqlCustomError | null, data: Comment[] | null) => {
         if (err)
             res.status(500).send({
                 message: err.message || "Une erreur est survenue lors de la création du commentaire."

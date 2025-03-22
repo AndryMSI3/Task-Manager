@@ -4,6 +4,7 @@ import mysql, { OkPacket } from 'mysql';
 interface Card {
     card_id: number;
     card_title: string;
+    options?: string;
 }
 
 type MaxIdResult = { max_id: number | null };
@@ -15,7 +16,7 @@ interface MySqlCustomError extends mysql.MysqlError {
 type ResultCallback<T> = (err: Error | null, result: T | T[] | null) => void;
 
 const card = {
-    create: (newCard: any, result: ResultCallback<Card>) => {
+    create: (newCard: Card, result: ResultCallback<Card>) => {
         sql.query("INSERT INTO carte SET ?", {
                 card_title: newCard.card_title
             }, (err: MySqlCustomError | null, res: OkPacket) => {
@@ -27,11 +28,12 @@ const card = {
                 console.log("✔️ Carte créée : ", { id: res.insertId, ...newCard });
     
                 // Séparation des user_ids à partir de newCard.options
-                const userIds: string[] = newCard.options.split(',');
+                const userIds: string[] = newCard?.options?.split(',') as string[];
     
                 // Pour chaque user_id, insérer dans la table carte_utilisateur
                 userIds.forEach((userId) => {
-                    sql.query("INSERT INTO carte_utilisateur(user_id, card_id) VALUES (?, ?)", [userId, res.insertId], (err: any, res: any) => {
+                    sql.query("INSERT INTO carte_utilisateur(user_id, card_id) VALUES (?, ?)", 
+                        [userId, res.insertId], (err: mysql.MysqlError | null, res: OkPacket) => {
                         if (err) {
                             console.error("❌ Erreur lors de l'association utilisateur avec la carte :", err);
                             return;

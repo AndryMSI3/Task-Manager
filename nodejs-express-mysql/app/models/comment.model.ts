@@ -4,10 +4,21 @@ import { Request, Response } from "express";
 
 interface Comment {
     text: string;
-    comment_id: string;
-    card_id: number;
-    user_id: number;
+    comId: string;
+    cardId: number;
+    userId: number;
+    repliedToCommentId: string;
 }
+
+const mapToDbFormat = (comment: Comment, cardId: number): any => {
+    return {
+        card_id: cardId,
+        text: comment.text,
+        comment_id: comment.comId,
+        user_id: comment.userId,  // Mapper 'userId' vers 'user_id' pour l'insertion
+        replied_to_comment_id: comment.repliedToCommentId || null
+    };
+};
 
 interface MySqlCustomError extends mysql.MysqlError {
     kind: string;
@@ -16,14 +27,10 @@ interface MySqlCustomError extends mysql.MysqlError {
 type ResultCallback<T> = (err: Error | null, result: T[] | T | null) => void;
 
 const comment = {
-    create: (newComment: any, cardId: number,result: ResultCallback<Comment>) => {
-        sql.query("INSERT INTO commentaire SET ?", {
-            text: newComment.text,
-            comment_id: newComment.comId,
-            user_id: newComment.userId,
-            card_id: cardId,
-            replied_to_comment_id: newComment.repliedToCommentId
-        }, (err: MySqlCustomError | null, res: OkPacket) => {
+    create: (newComment: Comment, cardId: number,result: ResultCallback<Comment>) => {
+        sql.query("INSERT INTO commentaire SET ?", 
+        mapToDbFormat(newComment,cardId) , 
+        (err: MySqlCustomError | null, res: OkPacket) => {
             if (err) {
                 console.log("Erreur :", err);
                 result(err, null);
@@ -35,7 +42,10 @@ const comment = {
         
     },  
     getAllByCardId: (cardId: number, result: ResultCallback<Comment>) => {
-        sql.query("SELECT * FROM commentaire WHERE card_id = ?", cardId, 
+        sql.query(`SELECT user_id AS userId, text ,comment_id AS comId, user_id AS userId,
+            replied_to_comment_id AS repliedToCommentId
+            FROM commentaire WHERE card_id = ?`, 
+            cardId, 
             (err: MySqlCustomError | null, res: Comment[] | null) => {
             if (err) {
                 console.log("Erreur :", err);

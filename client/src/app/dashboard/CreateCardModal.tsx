@@ -17,13 +17,10 @@ interface CreateCardResponse {
     options: string;
 }
   
-
-  
 function CreateCard({ setTaskList, closeModal }: { 
     setTaskList: React.Dispatch<React.SetStateAction<task[]>>, 
     closeModal: () => void 
 }) { 
-    console.log("Create card components");
     const [fetchData] = useFetch();
     const userId = localStorage.getItem("userConnectedId") as string;
     const titleRef = useRef<HTMLInputElement | null>(null);

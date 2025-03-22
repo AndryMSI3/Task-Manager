@@ -81,13 +81,14 @@ DROP TABLE IF EXISTS `utilisateur`;
 CREATE TABLE `utilisateur` (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `user_name` varchar(30) NOT NULL,
+  `user_picture` varchar(80) NOT NULL,
   `password` varchar(80) NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Insertion de l'utilisateur admin
 INSERT INTO `utilisateur` (`user_id`, `user_name`, `password`)
-VALUES (1, 'admin', '$2b$10$udaiOXy1nJQkqTVyVJfq2eExzmHIGZVv3YKqhStz7OpMhTBOaV3V.');
+VALUES (1, 'admin','','$2b$10$udaiOXy1nJQkqTVyVJfq2eExzmHIGZVv3YKqhStz7OpMhTBOaV3V.');
 
 -- End of dump
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

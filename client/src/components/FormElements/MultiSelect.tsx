@@ -23,9 +23,7 @@ const MultiSelect: React.FC<DropdownProps> = ({ id, onChange }) => {
   const open = () => setShow(true);
 
   const close = () => setShow(false);
-  console.log("Mulitselect component");
   useEffect(() => {
-    console.log("Fetching the user");
     fetch("http://localhost:8080/users/")
         .then((rawData) => rawData.json())
         .then((userList: { user_id: number; user_name: string }[]) => {

@@ -32,19 +32,16 @@ export function MenuItem(
   const handleClick = () => {
     // Exécuter l'action si elle est définie
     if (props.activateAction) {
-      console.log("activateAction exécutée"); // Pour vérifier dans la console
       props.activateAction();
     }
   
     // Activer un état si défini
     if (props.activateState) {
-      console.log("activateState exécutée"); // Pour vérifier dans la console
       props.activateState();
     }
   
     // Fermer le sidebar si on est sur mobile
     if (isMobile) {
-      console.log("Fermeture du sidebar sur mobile"); // Pour debug
       toggleSidebar();
     }
   };

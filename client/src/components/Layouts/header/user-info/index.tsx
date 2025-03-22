@@ -25,7 +25,6 @@ export function UserInfo() {
     fetch(`http://localhost:8080/users/${userId}`)
     .then(res => res.json())
     .then(data => {
-      console.log("data ",data.user_picture);
       setUSER({
         name: data.user_name || "Utilisateur inconnu",
         email: `id-${data.user_id}@app.com`, // Pas d'email dans la BDD, donc génération d'un pseudo-email

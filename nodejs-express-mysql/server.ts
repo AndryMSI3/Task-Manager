@@ -49,6 +49,7 @@ import userRoutes from "./app/routes/user.routes";
 import cardRoutes from "./app/routes/card.routes";
 import contentRoutes from './app/routes/content.routes';
 import commentRoutes from './app/routes/comment.routes';
+import { OkPacket } from 'mysql';
 
 const SALT_ROUNDS = 10;
 
@@ -106,8 +107,8 @@ app.post(
                 res.status(500).send({ error: "Error while hashing password" });
                 return;
             }
-            sql.query("INSERT INTO utilisateur(user_name, password) VALUES (?, ?)",
-                [userName, hashedPassword], (err: Error | null, result: any) => {
+            sql.query("INSERT INTO utilisateur(user_name, user_picture, password) VALUES (?,?,?)",
+                [userName,userPicture,hashedPassword], (err: Error | null, result: OkPacket) => {
                     if (err) {
                         console.log("error:", err); 
                         res.status(500).send({ error: "Internal Server Error" });
