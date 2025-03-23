@@ -25,7 +25,7 @@ const card = {
                     result(err, null);
                     return;
                 }
-                console.log("✔️ Carte créée : ", { id: res.insertId, ...newCard });
+                console.log("✔️  Carte créée : ", { id: res.insertId, ...newCard });
     
                 // Séparation des user_ids à partir de newCard.options
                 const userIds: string[] = newCard?.options?.split(',') as string[];
@@ -38,7 +38,7 @@ const card = {
                             console.error("❌ Erreur lors de l'association utilisateur avec la carte :", err);
                             return;
                         }
-                        console.log(`✔️ Utilisateur ${userId} associé avec la tâche ${res.insertId}`);
+                        console.log(`✔️  Utilisateur ${userId} associé avec la tâche ${res.insertId}`);
                     });
                 });
     

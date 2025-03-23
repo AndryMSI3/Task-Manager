@@ -10,7 +10,6 @@ type PrivilegeOption = { value: number; label: string };
 
 // Définition des props du composant
 const CreateUserModal = ({ closeUserCreating }: { closeUserCreating: (valeur: boolean) => void }) => {
-    console.log("Create user modal");
     // Références pour récupérer la valeur des champs d'entrée
     const userNameRef = useRef<HTMLInputElement | null>(null);
     const passwordRef = useRef<HTMLInputElement | null>(null);

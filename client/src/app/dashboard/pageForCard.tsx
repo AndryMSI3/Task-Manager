@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo ,memo } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Button } from "@/components/ui-elements/button";
-import Bold from "@tiptap/extension-bold";
-import Italic from "@tiptap/extension-italic";
 import Underline from "@tiptap/extension-underline";
 import Color from "@tiptap/extension-color";
 import Highlight from "@tiptap/extension-highlight";
@@ -40,34 +38,34 @@ interface Comment {
 }
 
 
-const CardPage = ({ cardId }:{ cardId: number }) => {
-  console.log("Page For Card");
+const CardPage = ({ cardData }:{ cardData: number[] }) => {
   const userId = localStorage.getItem("userConnectedId");
   const [isEditMode, setIsEditMode] = useState(false);
   const pickerRef = useRef<HTMLDivElement | null>(null); // Référence pour le picker
   const [color, setColor] = useState("#000000");
   const [isPickerVisible, setIsPickerVisible] = useState(false); // Gère l'affichage du ChromePicker
   const [contents, setContents] = useState<string | null>(null);
-
-
-
   const editor = useEditor({
     extensions: [
-      Bold,
-      Italic,
       Underline, 
       StarterKit,
       FontFamily,
       FontSize,
-      TextStyle, // Ajout obligatoire pour la couleur
+      TextStyle, 
       Color,
       Image,
       Highlight,
-      TextAlign.configure({ types: ["heading", "paragraph"] }), // Permet d'aligner titres et paragraphes
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
     ],
     content: contents,
     editable: false,
+    editorProps: { 
+      handleDOMEvents: { beforeinput: () => true } 
+    },
+    immediatelyRender: false,
   });
+  
+
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -79,11 +77,11 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
   },[]);
 
   useEffect(() => {
-    if (cardId) {
+    if (cardData[0]) {
       editor?.commands.setContent(contents);
       fetchContentData();
     }
-  }, [contents,cardId]); 
+  }, [contents,cardData[0]]); 
 
   // Fermer le picker en cliquant en dehors
   useEffect(() => {
@@ -106,7 +104,7 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
     if (!editor) return;
     const content = editor.getHTML(); // Récupère le contenu de l'éditeur
     try {
-      const response = await fetch(`http://localhost:8080/contents/${cardId}`, {
+      const response = await fetch(`http://localhost:8080/contents/${cardData[0]}}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -138,16 +136,15 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
     if (typeof window !== 'undefined') {
 
       if (!userId) return; // Vérifie que userId existe avant d'appeler setState
-      // setUserConnectedId(userId);
 
-      if (userId && cardId) {
+      if (userId && cardData[0]) {
           fetchContentData();
       }
     }
-  }, [cardId]);
+  }, [cardData[0]]);
 
   const fetchContentData = async() => {
-    fetch(`http://localhost:8080/contents/card/${cardId}`)
+    fetch(`http://localhost:8080/contents/card/${cardData[0]}`)
     .then(res => res.json())
     .then(data => {
       setContents(data.content);
@@ -169,7 +166,7 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-          <Button 
+          {cardData[1] == parseInt(userId as string) && <Button 
             className="boutonEnregistrer"
             onClick={() => {
               const newMode = !editor?.isEditable;
@@ -180,7 +177,7 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
             label={editor?.isEditable ? 'Mode Affichage' : 'Mode Édition'}
             variant="outlineDark" 
             shape="rounded"  
-          />
+          />}
           { isEditMode &&          
             <div className="toolbar">
               <button onClick={() => editor?.chain().focus().toggleBold().run()} className={editor?.isActive("bold") ? "active" : ""}> 
@@ -281,21 +278,20 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
             }
           `}</style>
 
-          <Button 
+          {cardData[1] == parseInt(userId as string) && <Button 
             className="boutonEnregistrer"
             onClick={handleSaveContent}
             size="small"
             label="Enregistrer" 
             variant="outlinePrimary" 
             shape="rounded" 
-           />
+           />}
           <Comments 
             userId={userId as string} 
-            cardId={cardId}   
+            cardId={cardData[0]}   
           /> 
-
       </div>
     </>
   );
 };
-export default CardPage;
+export default memo(CardPage);

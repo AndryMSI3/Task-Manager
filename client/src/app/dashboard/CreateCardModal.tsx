@@ -7,8 +7,8 @@ import MultiSelect from "@/components/FormElements/MultiSelect";
 
 interface task {
     card_id: number,
-    card_title: string,
-    user_id: number
+    user_id: number,
+    card_title: string
 }
 
 interface CreateCardResponse {
@@ -32,12 +32,11 @@ function CreateCard({ setTaskList, closeModal }: {
     }, []);  // Cette fonction ne change jamais, donc elle sera mémorisée.
 
     const handleSubmit = async () => {
-        console.log("Create card modal");
         const cardTitle = titleRef.current?.value || "";
         const urlCreateCard = 'http://localhost:8080/cards/create';
         const methodPost = 'POST';
-        const cardDataNames = ["card_title", "options"];
-        const cardDataValues: string[] = [cardTitle, selectedOptions.join(',')]; // Joindre les options en une seule chaîne
+        const cardDataNames = ["card_title","user_id","options"];
+        const cardDataValues: string[] = [cardTitle,userId,selectedOptions.join(',')]; // Joindre les options en une seule chaîne
     
         if (cardTitle !== "") {
             try {
