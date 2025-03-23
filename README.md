@@ -72,7 +72,7 @@ password = mot_de_passe_de_votre_base_de_donnée
 <p>Ce projet étant avant tout une démonstration de mes compétences, un utilisateur par défaut est créé :</p>
 <ul>
     <li><strong>Nom d'utilisateur :</strong> <code>admin</code></li>
-    <li><strong>Mot de passe :</strong> <code>password</code></li>
+    <li><strong>Mot de passe :</strong> <code>P@ssw0rd</code></li>
 </ul>
 <p>Ces identifiants ne sont pas modifiables dans la version actuelle. Si vous souhaitez utiliser ce projet pour un usage réel, 
 vous pouvez adapter le code en conséquence.</p>
