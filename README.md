@@ -1,4 +1,4 @@
-<h1>CardManager</h1>
+<h1>Task Manager</h1>
 
 <p>
     Une application web développée avec <strong>React</strong>, <strong>Next.js</strong> et <strong>TypeScript</strong> pour le frontend, 
@@ -32,7 +32,7 @@
     <li>✅ Affichage dynamique des tâches via une sidebar</li>
     <li>✅ Section centrale avec la description de la tâche et les commentaires</li>
     <li>✅ Modification de la description d'une tâche</li>
-    <li>✅ Ajout de commentaires</li>
+    <li>✅ Section commentaires</li>
 </ul>
 
 <h2>🚀 Installation et exécution</h2>
