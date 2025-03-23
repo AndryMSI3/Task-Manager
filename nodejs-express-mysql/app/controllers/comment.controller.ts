@@ -71,14 +71,3 @@ exports.findAllComments = (req: Request, res: Response) => {
         else res.send(data);
     });
 };
-
-exports.findAllReplies = (req: Request, res: Response) => {
-    const commentId = req.params.id;
-    comment.getAllRepliesByCommentId(commentId,  (err: MySqlCustomError | null, data: Comment[] | null) => {
-        if (err)
-            res.status(500).send({
-                message: err.message || "Une erreur est survenue lors de la récupération des commentaires."
-            });
-        else res.send(data);
-    });
-};

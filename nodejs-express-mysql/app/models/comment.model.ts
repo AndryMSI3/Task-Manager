@@ -1,13 +1,13 @@
 const sql = require("./db");
 import mysql, { OkPacket } from 'mysql';
 import { Request, Response } from "express";
-
 interface Comment {
     text: string;
     comId: string;
     cardId: number;
     userId: number;
-    repliedToCommentId: string;
+    repliedToCommentId?: string | null;
+    replies?: Comment[];  // Ajouter un tableau de réponses
 }
 
 const mapToDbFormat = (comment: Comment, cardId: number): any => {
@@ -41,33 +41,61 @@ const comment = {
         });
         
     },  
-    getAllByCardId: (cardId: number, result: ResultCallback<Comment>) => {
-        sql.query(`SELECT user_id AS userId, text ,comment_id AS comId, user_id AS userId,
-            replied_to_comment_id AS repliedToCommentId
-            FROM commentaire WHERE card_id = ?`, 
-            cardId, 
-            (err: MySqlCustomError | null, res: Comment[] | null) => {
+    getAllByCardId: (cardId: number, result: ResultCallback<any>) => {
+        // Étape 1: Récupérer tous les commentaires et leurs réponses associés pour un cardId spécifique avec les informations utilisateur
+        sql.query(`
+            SELECT
+                c.comment_id AS comId,
+                c.text,
+                c.user_id AS userId,
+                c.card_id AS cardId,
+                c.replied_to_comment_id AS repliedToCommentId,
+                u.user_name AS fullName,
+                u.user_picture AS avatarUrl
+            FROM
+                commentaire c
+            LEFT JOIN utilisateur u ON c.user_id = u.user_id
+            WHERE
+                c.card_id = ?;
+        `, [cardId], (err: MySqlCustomError | null, res: any[] | null) => {
             if (err) {
                 console.log("Erreur :", err);
-                result(err,null);
+                result(err, null);
                 return;
             }
-            console.log("Commentaires : ", res);
-            result(null, res);
-        });        
-    },
-    getAllRepliesByCommentId: (commentId: string, result: ResultCallback<Comment>) => {
-        sql.query("SELECT * FROM commentaire WHERE replied_to_comment_id = ?", commentId, 
-            (err: MySqlCustomError | null, res: Comment[] | null) => {
-            if (err) {
-                console.log("Erreur :", err);
-                result(err,null);
-                return;
-            }
-            console.log("Commentaires : ", res);
-            result(null, res);
-        });        
-    },
+    
+            // Séparer les commentaires principaux et les réponses
+            const mainComments = res?.filter(comment => comment.repliedToCommentId === null) || [];
+            const replies = res?.filter(comment => comment.repliedToCommentId !== null) || [];
+    
+            // Étape 2: Regrouper les réponses sous les commentaires principaux et ajouter les informations utilisateur
+            const groupedComments = mainComments.map(comment => {
+                const repliesForComment = replies.filter(reply => reply.repliedToCommentId === comment.comId);
+    
+                // Ajouter les réponses sous le commentaire principal
+                return {
+                    userId: comment.userId,
+                    comId: comment.comId,
+                    fullName: comment.fullName,
+                    avatarUrl: comment.avatarUrl ?`http://localhost:3000/images/${comment.avatarUrl}`: "http://localhost:3000/images/default.png",
+                    text: comment.text,
+                    timestamp: comment.timestamp,
+                    replies: repliesForComment.map(reply => ({
+                        userId: reply.userId,
+                        comId: reply.comId,  // Identifiant unique pour la réponse
+                        fullName: reply.fullName,
+                        avatarUrl: reply.avatarUrl ?`http://localhost:3000/images/${reply.avatarUrl}`: "http://localhost:3000/images/default.png",
+                        text: reply.text,
+                        timestamp: reply.timestamp,
+                    }))
+                };
+            });
+    
+            console.log("Commentaires avec réponses : ", groupedComments);
+            result(null, groupedComments); // Retourner les commentaires avec leurs réponses et informations utilisateur
+        });
+    }
+    ,
     delete: (commentId: number, result: ResultCallback<Comment>)  => {
         sql.query("DELETE FROM commentaire WHERE comment_id = ?", commentId, 
         (err: MySqlCustomError | null, res: OkPacket) => {

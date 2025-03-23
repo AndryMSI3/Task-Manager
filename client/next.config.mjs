@@ -1,5 +1,6 @@
 /** @type {import("next").NextConfig} */
 const nextConfig = {
+  reactStrictMode: false, // Désactive React Strict Mode en production
   images: {
     domains: ["localhost"],
     remotePatterns: [

@@ -10,11 +10,13 @@ type PrivilegeOption = { value: number; label: string };
 
 // Définition des props du composant
 const CreateUserModal = ({ closeUserCreating }: { closeUserCreating: (valeur: boolean) => void }) => {
+    console.log("Create user modal");
     // Références pour récupérer la valeur des champs d'entrée
     const userNameRef = useRef<HTMLInputElement | null>(null);
     const passwordRef = useRef<HTMLInputElement | null>(null);
     const privilegeRef = useRef<HTMLSelectElement>(null);
-
+    let userName: string;
+    let password: string;
     // États pour gérer l'image sélectionnée, les erreurs et l'aperçu de l'image
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [errorMessage, setErrorMessage] = useState("");
@@ -52,15 +54,21 @@ const CreateUserModal = ({ closeUserCreating }: { closeUserCreating: (valeur: bo
         }
     };
 
+    // Fonction pour fermer le modal
+    const handleClose = () => {
+        closeUserCreating(false);
+    };
+
+    // Options pour le champ de sélection des privilèges
+    const privilegeOptions = [
+        { value: "2", label: "Développeur" },
+        { value: "1", label: "Développeur en chef" }
+    ];
+
     // Fonction pour gérer la création de l'utilisateur
     const handleCreateUser = async () => {
-        const userName = userNameRef.current?.value;
-        const password = passwordRef.current?.value;
-
-        // Fonction pour fermer le modal
-        const handleClose = () => {
-            closeUserCreating(false);
-        };
+        userName = userNameRef.current?.value as string;
+        password = passwordRef.current?.value as string;
 
         // Vérification des champs requis
         if (!userName || !password) {
@@ -118,11 +126,7 @@ const CreateUserModal = ({ closeUserCreating }: { closeUserCreating: (valeur: bo
         }
     };
 
-    // Options pour le champ de sélection des privilèges
-    const privilegeOptions = [
-        { value: "2", label: "Développeur" },
-        { value: "1", label: "Développeur en chef" }
-    ];
+
 
     return (
         <>

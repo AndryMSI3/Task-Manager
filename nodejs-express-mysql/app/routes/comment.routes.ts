@@ -33,6 +33,5 @@ router.get("/card/:id", commentController.findAllComments);
  */
 router.delete("/:id", commentController.deleteComment);
 
-router.get("/card/replies/:id", commentController.findAllReplies);
 
 export default router;

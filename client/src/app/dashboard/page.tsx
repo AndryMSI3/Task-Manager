@@ -14,44 +14,47 @@ interface task {
 }
 
 export default function KanbanBoard() {
+  console.log("KanbanBoard");
   const [isUserCreationOpen, setIsUserCreationOpen] = useState(false);
   const [isLeaderMode, setIsLeaderMode] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskList, setTaskList] = useState<task[]>([]);
   const [cardId, setCardId] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState<string | null>(null);  // État local pour stocker le userId
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const openUserCreation = () => setIsUserCreationOpen(true);
   const closeUserCreation = () => setIsUserCreationOpen(false);
 
-  // Fonction optimisée pour récupérer les tâches
-  const fetchTaskData = useCallback(() => {
+  const stableSetTaskList = useCallback((newTaskList: task[] | ((prev: task[]) => task[])) => {
+    setTaskList(newTaskList);
+  }, [setTaskList]);
+  
+  
+  useEffect(() => {
     const userId = localStorage.getItem("userConnectedId");
-    if (!userId) return;
-
-    setLoading(true);  // Ajout de setLoading pour indiquer que les données sont en cours de chargement
+    if (!userId) return;  // Vérifie si userId existe
+  
     fetch(`http://localhost:8080/cards/user/${userId}`)
       .then((rawData) => rawData.json())
       .then((data) => {
-        setTaskList(data?.message ? [] : data);
-        setLoading(false);  // Une fois les données chargées, désactive le loading
+        // Si la nouvelle tâche est identique à l'ancienne, ne fais pas le set
+        setTaskList((prevTaskList) => {
+          if (JSON.stringify(prevTaskList) === JSON.stringify(data?.message ? [] : data)) {
+            return prevTaskList;  // Retourne l'ancien état si les données sont identiques
+          }
+          return data?.message ? [] : data;  // Sinon, mets à jour les données
+        });
       })
       .catch((error) => {
         console.error("Error fetching tasks: ", error);
-        setLoading(false);  // Désactive aussi le loading en cas d'erreur
       });
-  }, []);
+  }, []); // Ce useEffect ne s'exécute qu'une seule fois au montage
+  
 
-  useEffect(() => {
-    const userPrivilege = localStorage.getItem("userPrivilege");
-    if (userPrivilege?.includes("1") || userPrivilege?.includes("2")) {
-      setIsLeaderMode(true);
-    }
-    fetchTaskData();  // Appel explicite de fetchTaskData
-  }, [fetchTaskData]);  // On s'assure que fetchTaskData est toujours bien appelé lorsqu'il change
-
+  
   // Préparation des données de navigation (memoization)
   const navData = useMemo(() => [
     {
@@ -89,7 +92,7 @@ export default function KanbanBoard() {
           <CreateUserModal closeUserCreating={closeUserCreation} />
         )}
         {isModalOpen && (
-          <CreateCardModal setTaskList={setTaskList} closeModal={closeModal} />
+          <CreateCardModal setTaskList={stableSetTaskList} closeModal={closeModal} />
         )}
         <div className="isolate mx-auto w-full overflow-hidden p-4 md:p-6 2xl:p-10">
           {cardId ? (

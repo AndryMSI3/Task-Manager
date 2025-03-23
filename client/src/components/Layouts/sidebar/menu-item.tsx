@@ -30,6 +30,8 @@ export function MenuItem(
   const { toggleSidebar, isMobile } = useSidebarContext();
 
   const handleClick = () => {
+    console.log("🟢 handleClick exécuté !");
+
     // Exécuter l'action si elle est définie
     if (props.activateAction) {
       props.activateAction();
@@ -51,6 +53,7 @@ export function MenuItem(
     <button
       onClick={handleClick}  // On utilise handleClick ici pour l'action et l'activation de l'état
       aria-expanded={props.isActive}
+      type="button"
       className={menuItemBaseStyles({
         isActive: props.isActive,
         className: "flex w-full items-center gap-3 py-1",

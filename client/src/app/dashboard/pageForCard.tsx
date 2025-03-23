@@ -4,7 +4,6 @@ import { useEffect, useState, useRef } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Button } from "@/components/ui-elements/button";
-import "react-comments-section/dist/index.css";
 import Bold from "@tiptap/extension-bold";
 import Italic from "@tiptap/extension-italic";
 import Underline from "@tiptap/extension-underline";
@@ -42,12 +41,12 @@ interface Comment {
 
 
 const CardPage = ({ cardId }:{ cardId: number }) => {
+  console.log("Page For Card");
   const userId = localStorage.getItem("userConnectedId");
   const [isEditMode, setIsEditMode] = useState(false);
   const pickerRef = useRef<HTMLDivElement | null>(null); // Référence pour le picker
   const [color, setColor] = useState("#000000");
   const [isPickerVisible, setIsPickerVisible] = useState(false); // Gère l'affichage du ChromePicker
-  const [comments, setComments] = useState<Comment[]>([]);
   const [contents, setContents] = useState<string | null>(null);
 
 
@@ -127,72 +126,6 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
     } 
   };
 
-
-  useEffect(() => {
-    const fetchCommentsAndUserData = async () => {
-      if (!userId || !cardId) return;
-  
-      try {
-        const response = await fetch(`http://localhost:8080/comments/card/${cardId}`);
-        const commentsData = await response.json();
-  
-        if (!commentsData) return setComments([]);
-  
-        const commentPromises = commentsData.map(async (comment: Comment) => {
-          try {
-            const userResponse = await fetch(`http://localhost:8080/users/${comment.userId}`);
-            const userData = await userResponse.json();
-  
-            const repliesResponse = await fetch(`http://localhost:8080/comments/card/replies/${comment.comId}`);
-            const repliesData = await repliesResponse.json();
-  
-            // Récupération des utilisateurs ayant fait des replies
-            const replyPromises = repliesData.map(async (reply: any) => {
-              try {
-                const replyUserResponse = await fetch(`http://localhost:8080/users/${reply.user_id}`);
-                const replyUserData = await replyUserResponse.json();
-  
-                return {
-                  userId: String(reply.user_id),
-                  repliedToCommentId: reply.replied_to_comment_id,
-                  avatarUrl: `http://localhost:3000/images/${replyUserData.user_picture || "default.png"}`,
-                  userProfile: `http://localhost:3000/profile`,
-                  text: reply.text,
-                  comId: reply.comment_id,
-                  fullName: replyUserData.user_name, // Ajout du nom de l'utilisateur
-                };
-              } catch (error) {
-                console.error("Error fetching reply user:", error);
-                return null;
-              }
-            });
-  
-            const formattedReplies = (await Promise.all(replyPromises)).filter(Boolean);
-  
-            return {
-              userId: String(comment.userId),
-              comId: comment.comId,
-              fullName: userData.user_name,
-              text: comment.text,
-              avatarUrl: `http://localhost:3000/images/${userData.user_picture || "default.png"}`,
-              replies: formattedReplies,
-            };
-          } catch (error) {
-            console.error("Error fetching user or replies:", error);
-            return null;
-          }
-        });
-  
-        const comments = (await Promise.all(commentPromises)).filter(Boolean);
-        setComments(comments);
-      } catch (error) {
-        console.error("Error fetching comments:", error);
-      }
-    };
-  
-    fetchCommentsAndUserData();
-  }, [cardId]);
-    
   // Fonction qui change la couleur du texte sélectionné
   const handleColorChange = (color: ColorResult) => {
     setColor(color.hex); // Mise à jour de l'état avec la couleur sélectionnée
@@ -359,7 +292,6 @@ const CardPage = ({ cardId }:{ cardId: number }) => {
           <Comments 
             userId={userId as string} 
             cardId={cardId}   
-            comments={comments}
           /> 
 
       </div>

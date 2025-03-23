@@ -32,6 +32,7 @@ function CreateCard({ setTaskList, closeModal }: {
     }, []);  // Cette fonction ne change jamais, donc elle sera mémorisée.
 
     const handleSubmit = async () => {
+        console.log("Create card modal");
         const cardTitle = titleRef.current?.value || "";
         const urlCreateCard = 'http://localhost:8080/cards/create';
         const methodPost = 'POST';
