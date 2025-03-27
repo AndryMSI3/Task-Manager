@@ -37,7 +37,6 @@ function CreateCard({ setTaskList, closeModal }: {
         const methodPost = 'POST';
         const cardDataNames = ["card_title","user_id","options"];
         const cardDataValues: string[] = [cardTitle,userId,selectedOptions.join(',')]; // Joindre les options en une seule chaîne
-    
         if (cardTitle !== "") {
             try {
                 const response = await fetchData(urlCreateCard, methodPost, cardDataNames, cardDataValues);

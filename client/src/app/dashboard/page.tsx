@@ -34,6 +34,7 @@ export default function KanbanBoard() {
     fetch(`http://localhost:8080/cards/user/${userId}`)
       .then((rawData) => rawData.json())
       .then((data) => {
+        console.log("taskList ",data);
         setTaskList(data?.message ? [] : data);
       })
       .catch((error) => {

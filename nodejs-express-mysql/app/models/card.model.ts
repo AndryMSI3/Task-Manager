@@ -2,6 +2,7 @@ const sql = require("./db");
 import mysql, { OkPacket } from 'mysql';
 
 interface Card {
+    user_id: number;
     card_id: number;
     card_title: string;
     options?: string;
@@ -18,7 +19,8 @@ type ResultCallback<T> = (err: Error | null, result: T | T[] | null) => void;
 const card = {
     create: (newCard: Card, result: ResultCallback<Card>) => {
         sql.query("INSERT INTO carte SET ?", {
-                card_title: newCard.card_title
+                card_title: newCard.card_title,
+                user_id: newCard.user_id
             }, (err: MySqlCustomError | null, res: OkPacket) => {
                 if (err) {
                     console.log("❌ Erreur d'insertion de la carte :", err);
@@ -131,7 +133,7 @@ const card = {
     },
 
     findByUserId: (id: number, result: ResultCallback<Card>)  => {
-        sql.query(`SELECT c.card_title, c.card_id FROM carte c 
+        sql.query(`SELECT c.card_title, c.card_id, c.user_id FROM carte c 
             INNER JOIN carte_utilisateur cu ON cu.card_id = c.card_id
             INNER JOIN utilisateur u ON cu.user_id = u.user_id 
             WHERE u.user_id = ?`, id, 

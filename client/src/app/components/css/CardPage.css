@@ -9,7 +9,6 @@
 }
 
 .replySection {
-  margin-bottom: 1.5vw;
   border-left: 1px solid rgb(235, 235, 235);
   margin-left: 4.5vw;
   padding: 0px 0px 0px 15px;
@@ -76,17 +75,6 @@
   height: 20px;
 }
 
-.userLink .imgdefault {
-  width: 38px;
-  height: 38px;
-  border-radius: 100px;
-}
-
-.imgdefault {
-  width: 65px;
-  height: 50px;
-  border-radius: 100px;
-}
 
 .infoStyle {
   margin-left: 45px;

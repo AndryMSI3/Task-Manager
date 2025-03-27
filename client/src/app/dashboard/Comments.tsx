@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import "react-comments-section/dist/index.css";
 import '../components/css/CardPage.css';
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui-elements/button";
 
 // Charger CommentSection dynamiquement pour éviter les problèmes SSR
 const CommentSection = dynamic(() => import("react-comments-section").then((mod) => mod.CommentSection), { ssr: false });
@@ -91,11 +92,12 @@ function Comments({ userId, cardId }: { userId: string, cardId: number }) {
       },
     });
   };
-  
+
   return (
     <>
         {currentUserData && (
           <CommentSection
+            advancedInput={true}
             showTimestamp={false}
             removeEmoji={true}
             currentUser={{
@@ -105,10 +107,6 @@ function Comments({ userId, cardId }: { userId: string, cardId: number }) {
                 : 'http://localhost:3000/images/default.png',
               currentUserProfile: 'http://localhost:3000/profile',
               currentUserFullName: currentUserData.user_name,
-            }}
-            logIn={{
-              onLogin: () => console.log('call login function'),
-              signUpLink: '',
             }}
             commentData={comments}
             onReplyAction={(data: Comment) => handleSubmitComment(data)}
