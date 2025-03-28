@@ -71,7 +71,6 @@ const cardContent =  {
         });
     },
     remove : (cardId: number, result: ResultCallback<cardContent>) => {
-        console.log("cardId ",cardId);
         sql.query("DELETE FROM contenue_carte WHERE card_id = ?", cardId, 
             (err: MySqlCustomError | null, res: OkPacket) => {
             if (err) {

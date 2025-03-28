@@ -80,7 +80,6 @@ function Comments({ userId, cardId }: { userId: string, cardId: number }) {
   },[cardId])
 
   const handleSubmitComment = (comment: Comment) => {
-    // console.log("submitted comment ",comment," cardId ",cardId);
     fetch('http://localhost:8080/comments/create', {
       method: 'POST',
       body: JSON.stringify({

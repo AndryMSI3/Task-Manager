@@ -30,7 +30,6 @@ export function MenuItem(
   const { toggleSidebar, isMobile } = useSidebarContext();
 
   const handleClick = () => {
-    console.log("🟢 handleClick exécuté !");
 
     // Exécuter l'action si elle est définie
     if (props.activateAction) {
