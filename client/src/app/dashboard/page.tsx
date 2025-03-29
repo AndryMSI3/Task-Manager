@@ -6,7 +6,8 @@ import { Sidebar } from "@/components/Layouts/sidebar";
 import { Header } from "@/components/Layouts/header";
 import CreateUserModal from "./CreateUserModal";
 import CardPage from "./pageForCard";
-
+import { useSidebarContext } from "@/components/Layouts/sidebar/sidebar-context";
+import { cn } from "@/lib/utils";
 interface task {
   card_id: number;
   user_id: number;
@@ -18,6 +19,7 @@ export default function KanbanBoard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskList, setTaskList] = useState<task[]>([]);
   const [cardData, setCardData] = useState<[number,number]>([0,0]); 
+  const { isOpen, isMobile } = useSidebarContext();
   // CardId, UserId
 
   const openModal = () => setIsModalOpen(true);
@@ -76,7 +78,9 @@ export default function KanbanBoard() {
   return (
     <div className="flex min-h-screen">
       <Sidebar navData={navData} />
-      <div className="w-full bg-gray-2 dark:bg-[#020d1a]">
+      <div className={cn(" bg-gray-2 dark:bg-[#020d1a]",
+        isOpen ? (isMobile ? "w-full" : "w-4/5") : "w-full"
+      )}>
         <Header />
         {isUserCreationOpen && (
           <CreateUserModal closeUserCreating={closeUserCreation} />
