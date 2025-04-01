@@ -4,6 +4,7 @@ import { Select } from '@/components/FormElements/select';
 import InputGroup from "@/components/FormElements/InputGroup";
 import { Button } from '@/components/ui-elements/button';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
 
 // Définition du type des options pour le select
 type PrivilegeOption = { value: number; label: string };
@@ -117,6 +118,7 @@ const CreateUserModal = ({ closeUserCreating }: { closeUserCreating: (valeur: bo
                 const errors = data.errors.map((err: any) => err.msg).join(", ");
                 setErrorMessage(errors);
             } else {
+                toast.success("Enregistrement réussi !");
                 setPreviewImage(data.UserPicture);
                 handleClose();
             }
@@ -124,8 +126,6 @@ const CreateUserModal = ({ closeUserCreating }: { closeUserCreating: (valeur: bo
             console.log("Error:", error);
         }
     };
-
-
 
     return (
         <>

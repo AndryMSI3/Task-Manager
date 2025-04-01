@@ -7,6 +7,8 @@ import "jsvectormap/dist/jsvectormap.css";
 import type { Metadata } from "next";
 import type { PropsWithChildren } from "react";
 import { Providers } from "./providers";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Importer le CSS
 
 export const metadata: Metadata = {
   title: {
@@ -25,6 +27,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         <Providers>
           {children}
         </Providers>
+        <ToastContainer position="top-right" autoClose={2000} />
       </body>
     </html>
   );

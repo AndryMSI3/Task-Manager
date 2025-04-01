@@ -50,7 +50,7 @@ exports.updateCardContent = (req: Request, res: Response) => {
         return;
     }
     const cardId = req.params.id;
-    const updatedContent = JSON.stringify(req.body.content);
+    const updatedContent = JSON.stringify(req.body.htmlContent);
     CardContent.updateById(cardId, updatedContent, 
         (err: MySqlCustomError | null, data: cardContent | null) => {
         if (err) {

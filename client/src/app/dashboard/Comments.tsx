@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import "react-comments-section/dist/index.css";
 import '../components/css/CardPage.css';
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui-elements/button";
 
 // Charger CommentSection dynamiquement pour éviter les problèmes SSR
 const CommentSection = dynamic(() => import("react-comments-section").then((mod) => mod.CommentSection), { ssr: false });
