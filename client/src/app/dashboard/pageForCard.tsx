@@ -48,7 +48,6 @@ const CardPage = ({ cardData }:{ cardData: number[] }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const pickerRef = useRef<HTMLDivElement | null>(null); // Référence pour le picker
   const [isPickerVisible, setIsPickerVisible] = useState(false); // Gère l'affichage du ChromePicker
-  const [contents, setContents] = useState<string | null>(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   const cleanText = (text: string) => text.replace(/\r/g, ""); // Supprime les retours chariots (\r)
@@ -81,32 +80,11 @@ const CardPage = ({ cardData }:{ cardData: number[] }) => {
     return true; // Indique que le texte a été géré
   };
 
-  const editor = useEditor({
-    extensions: [
-      Underline, 
-      StarterKit,
-      FontFamily,
-      FontSize,
-      TextStyle, 
-      Color,
-      Image,
-      Highlight,
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
-    ],
-    content: contents,
-    editable: false,
-    editorProps: { 
-      handleDOMEvents: { beforeinput: () => true } 
-    },
-    immediatelyRender: false,
-  });
-  
   useEffect(() => {
     if (cardData[0]) {
-      editor?.commands.setContent(contents);
       fetchContentData();
     }
-  }, [contents,cardData[0]]); 
+  }, [cardData[0]]); 
 
   // Fermer le picker en cliquant en dehors
   useEffect(() => {
@@ -166,10 +144,16 @@ const CardPage = ({ cardData }:{ cardData: number[] }) => {
     try {
       const response = await fetch(`http://localhost:8080/contents/card/${cardData[0]}`);
       if (!response.ok) throw new Error("Erreur lors du chargement du contenu");
-      const data = await response.json();
+      let data = await response.json();
       
       import("html-to-draftjs").then(({ default: htmlToDraft }) => {
-        const blocksFromHtml = htmlToDraft(JSON.parse(data.content));
+        let blocksFromHtml;
+        if (data.content) {
+          blocksFromHtml = htmlToDraft(JSON.parse(data.content));
+        }
+        else {
+          blocksFromHtml = htmlToDraft("<p></p>");
+        }
         const contentState = ContentState.createFromBlockArray(
           blocksFromHtml.contentBlocks,
           blocksFromHtml.entityMap
@@ -187,12 +171,10 @@ const CardPage = ({ cardData }:{ cardData: number[] }) => {
           {cardData[1] == parseInt(userId as string) && <Button 
             className="boutonEnregistrer"
             onClick={() => {
-              const newMode = !editor?.isEditable;
-              editor?.setEditable(newMode);
-              setIsEditMode(newMode); // Met à jour l'état local si nécessaire
+              setIsEditMode(!isEditMode); // Met à jour l'état local si nécessaire */
             }}
             size="small"
-            label={editor?.isEditable ? 'Mode Affichage' : 'Mode Édition'}
+            label={isEditMode ? 'Mode Affichage' : 'Mode Édition'}
             variant="outlineDark" 
             shape="rounded"  
           />}
