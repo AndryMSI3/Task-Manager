@@ -10,6 +10,20 @@
     <strong>section centrale dynamique</strong> où ils peuvent modifier la description et ajouter des commentaires.
 </p>
 
+<h2>📸 Aperçu de l'application</h2>
+
+<h3>🔑 Page de connexion</h3>
+<img src="screenshots/login.png" alt="Page de connexion" width="700">
+
+<h3>🏠 Tableau de bord</h3>
+<img src="screenshots/dashboard.png" alt="Tableau de bord" width="700">
+
+<h3>👤 Formulaire de création d'utilisateur</h3>
+<img src="screenshots/create-user.png" alt="Formulaire utilisateur" width="700">
+
+<h3>📋 Formulaire de création de tâche</h3>
+<img src="screenshots/create-task.png" alt="Formulaire tâche" width="700">
+
 <h2>🛠️ Technologies utilisées</h2>
 <ul>
     <li><strong>Next.js</strong></li>
