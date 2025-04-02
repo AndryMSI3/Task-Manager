@@ -9,7 +9,6 @@ import type { PropsWithChildren } from "react";
 import { Providers } from "./providers";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Importer le CSS
-
 export const metadata: Metadata = {
   title: {
     template: "%s | NextAdmin - Next.js Dashboard Kit",
@@ -24,10 +23,10 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <Providers>
-          {children}
-        </Providers>
-        <ToastContainer position="top-right" autoClose={2000} />
+          <Providers>
+            {children}
+          </Providers>
+          <ToastContainer position="top-right" autoClose={2000} />
       </body>
     </html>
   );

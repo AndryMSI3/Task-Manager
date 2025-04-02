@@ -90,6 +90,7 @@ export default function KanbanBoard() {
         )}
         <div className="isolate mx-auto w-full overflow-hidden p-4 md:p-6 2xl:p-10">
           { cardData[0] ? (
+            // <h1>Test</h1>
             <CardPage cardData={cardData} />
           ) : (
             <p>Aucune carte n&apos;est sélectionnée...</p>
