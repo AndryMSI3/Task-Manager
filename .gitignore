@@ -15,6 +15,7 @@ Thumbs.db
 
 #assets
 public/
+!public/images/default.png
 
 # Private Data
 .my.cnf
