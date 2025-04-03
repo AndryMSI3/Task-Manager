@@ -77,12 +77,12 @@ password = mot_de_passe_de_votre_base_de_donnée
 		<code>cd client</code><br>
         <code>npm run build</code><br>
 	<li><strong>Exécuter l'application</strong><br>
-        <strong>Frontend :</strong><br>
-		<code>cd client</code><br>
-		<code>npm run start</code><br>
         <strong>Backend :</strong><br>
         <code>cd nodejs-express-mysql</code><br>
-        <code>ts-node server.ts</code>
+        <code>ts-node server.ts</code>       
+	    <strong>Frontend :</strong><br>
+		<code>cd client</code><br>
+		<code>npm run start</code><br>
     </li>
 </ol>
 <h2>🔑 Identifiants par défaut</h2>
