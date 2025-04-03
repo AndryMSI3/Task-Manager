@@ -79,7 +79,7 @@ password = mot_de_passe_de_votre_base_de_donnée
 	<li><strong>Exécuter l'application</strong><br>
         <strong>Backend :</strong><br>
         <code>cd nodejs-express-mysql</code><br>
-        <code>ts-node server.ts</code>       
+        <code>ts-node server.ts</code><br>     
 	    <strong>Frontend :</strong><br>
 		<code>cd client</code><br>
 		<code>npm run start</code><br>
