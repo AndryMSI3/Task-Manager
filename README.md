@@ -73,7 +73,6 @@ password = mot_de_passe_de_votre_base_de_donnée
     </li>
     <li><strong>Installer les dépendances</strong><br>
 		<strong>Dans la racine faites:</strong><br>
-		<code>cd client</code><br>
         <code>npm install</code><br>
 		<code>cd client</code><br>
         <code>npm run build</code><br>
