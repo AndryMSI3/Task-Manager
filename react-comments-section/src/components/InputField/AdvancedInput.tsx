@@ -135,6 +135,7 @@ const AdvancedInput = ({
       <div className="advanced-input">
         <div className="form advanced-form"  /* style={ globalStore.formStyle || formStyle } */>
           <div className="advanced-border">
+			{/* @ts-ignore*/}
             <Editor
               editorState={editorState}
               placeholder={placeHolder || 'Tapez votre réponse.'}
