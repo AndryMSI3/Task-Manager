@@ -1,0 +1,27 @@
+{
+  "name": "taskmanager",
+  "version": "1.0.0",
+  "description": "Application de gestion de tâche ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndryMSI3/Task-Manager.git"
+  },
+  "keywords": [
+    "React",
+    "Next",
+    "Express",
+    "Typescript",
+    "Task",
+    "Manager"
+  ],
+  "author": "R.Andrinirina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndryMSI3/Task-Manager/issues"
+  },
+  "homepage": "https://github.com/AndryMSI3/Task-Manager#readme"
+}
