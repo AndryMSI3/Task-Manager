@@ -31,8 +31,6 @@
     "react-comments-section": "file:../react-comments-section",
     "react-dom": "19.0.0",
     "react-draft-wysiwyg": "file:../react-draft-wysiwyg",
-    "react-select": "^5.10.0",
-    "react-table": "^7.8.0",
     "react-toastify": "^11.0.5",
     "tailwind-merge": "^2.6.0",
     "uuid": "^11.1.0"
