@@ -11,6 +11,7 @@
     "react-draft-wysiwyg"
   ],
   "scripts": {
+    "install": "npm install --legacy-peer-deps -verbose",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

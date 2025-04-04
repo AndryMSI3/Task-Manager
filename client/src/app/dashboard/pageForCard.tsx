@@ -1,17 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef, useMemo ,memo } from "react";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
 import { Button } from "@/components/ui-elements/button";
-import Underline from "@tiptap/extension-underline";
-import Color from "@tiptap/extension-color";
-import Highlight from "@tiptap/extension-highlight";
-import TextAlign from "@tiptap/extension-text-align";
-import FontSize from '@tiptap/extension-font-size';
-import FontFamily from '@tiptap/extension-font-family'; 
-import TextStyle from "@tiptap/extension-text-style"; // ✅ Ajout
-import Image from "@tiptap/extension-image";
 import dynamic from 'next/dynamic'; // (if using Next.js or use own dynamic loader)
 import { ContentBlock, Modifier, EditorState, ContentState, convertToRaw, convertFromHTML } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
