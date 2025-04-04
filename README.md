@@ -55,7 +55,7 @@
         <code>git clone https://github.com/AndryMSI3/CardManager.git</code>
     </li>
     <li><strong>Configurer le backend</strong><br>
-        Avant d'installer les dépendances, créer les fichiers suivants à la racine:
+        Avant d'installer les dépendances, créer les fichiers suivants dans le dossier <code>nodejs-express-mysql</code>:
         <br>
         <strong>Fichier <code>.env</code> :</strong>
         <pre>
