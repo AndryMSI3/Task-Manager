@@ -152,9 +152,7 @@ button {
     border-radius: 0;
 }
 
-.rdw-editor-main {
-    overflow-y: scroll;
-}
+
 
 .replyIcon {
     visibility: none;

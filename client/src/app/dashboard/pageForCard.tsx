@@ -5,9 +5,9 @@ import { Button } from "@/components/ui-elements/button";
 import dynamic from 'next/dynamic'; // (if using Next.js or use own dynamic loader)
 import { ContentBlock, Modifier, EditorState, ContentState, convertToRaw, convertFromHTML } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
-import Comments from "./Comments";
 import { toast } from 'react-toastify';
-
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import Comments from "./Comments";
 // Charger le composant de manière dynamique sans SSR
 const Editor = dynamic(
   () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
@@ -175,13 +175,12 @@ const CardPage = ({ cardData }:{ cardData: number[] }) => {
             wrapperStyle={isEditMode ? {border:"1px solid #cfcdcd"}:{border:"none"}} 
             toolbarHidden={!isEditMode} 
             onEditorStateChange={setEditorState}
-            handlePastedText={(text, html, editorState, onChange) => handlePastedText(text, html, editorState, onChange)}
+            handlePastedText={(text: any, html: any, editorState: any, onChange: any) => handlePastedText(text, html, editorState, onChange)}
             toolbar={{
               options: ['inline', 'list', 'fontSize', 'fontFamily','colorPicker', 'emoji'],
-
               inline: { options: ['bold', 'italic', 'underline', 'strikethrough'] },
               list: { inDropdown: false, options: ['unordered', 'ordered'] },
-              fontSize: { inDropdown:true,
+              fontSize: { inDropdown: false,
                 options: [10, 11, 12, 14, 16, 18, 24, 30, 36, 48 ]
               },
               fontFamily: { inDropdown: true,
@@ -225,11 +224,11 @@ const CardPage = ({ cardData }:{ cardData: number[] }) => {
             variant="outlinePrimary" 
             shape="rounded" 
            />}
-          <Comments 
-            userId={userId as string} 
-            cardId={cardData[0]}   
-          /> 
       </div>
+      <Comments 
+        cardId={cardData[0]}
+        userId={cardData[1]}
+      />
     </>
   );
 };

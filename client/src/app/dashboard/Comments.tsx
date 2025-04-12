@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import "react-comments-section/dist/index.css";
 import '../components/css/CardPage.css';
 import { useEffect, useState } from "react";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 // Charger CommentSection dynamiquement pour éviter les problèmes SSR
 const CommentSection = dynamic(() => import("react-comments-section").then((mod) => mod.CommentSection), { ssr: false });
@@ -27,7 +28,7 @@ interface userData {
   user_picture: string;
 }
 
-function Comments({ userId, cardId }: { userId: string, cardId: number }) {
+function Comments({ userId, cardId }: { userId: number, cardId: number }) {
   const [comments,setComments] = useState<any[]>([
     {
       userId: '1',
@@ -91,25 +92,37 @@ function Comments({ userId, cardId }: { userId: string, cardId: number }) {
     });
   };
 
+  const data =[
+    {
+      userId: '02b',
+      comId: '017',
+      fullName: 'Lily',
+      userProfile: 'https://www.linkedin.com/in/riya-negi-8879631a9/',
+      text: 'I think you have a point🤔',
+      avatarUrl: 'https://ui-avatars.com/api/name=Lily&background=random',
+      timestamp: '2024-09-28T12:34:56Z',
+      replies: [],
+    }
+  ]
   return (
     <>
         {currentUserData && (
           <CommentSection
-            advancedInput={true}
-            showTimestamp={false}
-            removeEmoji={true}
-            currentUser={{
-              currentUserId: userId as string,
-              currentUserImg: currentUserData?.user_picture
-                ? `http://localhost:3000/images/${currentUserData.user_picture}`
-                : 'http://localhost:3000/images/default.png',
-              currentUserProfile: 'http://localhost:3000/profile',
-              currentUserFullName: currentUserData.user_name,
-            }}
-            commentData={comments}
-            onReplyAction={(data: Comment) => handleSubmitComment(data)}
-            onSubmitAction={(data: Comment) => handleSubmitComment(data)}
-          />
+          advancedInput={true}
+          showTimestamp={false}
+          removeEmoji={true}
+          currentUser={{
+            currentUserId: userId.toString(),
+            currentUserImg: currentUserData?.user_picture
+              ? `http://localhost:3000/images/${currentUserData.user_picture}`
+              : 'http://localhost:3000/images/default.png',
+            currentUserProfile: 'http://localhost:3000/profile',
+            currentUserFullName: currentUserData.user_name,
+          }}
+          commentData={comments}
+          onReplyAction={(data: Comment) => handleSubmitComment(data)}
+          onSubmitAction={(data: Comment) => handleSubmitComment(data)}
+        />
         )}
     </>
   );

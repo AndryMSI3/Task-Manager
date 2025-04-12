@@ -14,8 +14,8 @@ logs/
 Thumbs.db
 
 #assets
-public/
-!public/images/default.png
+client/public/
+!client/public/images/default.png
 
 # Private Data
 .my.cnf
