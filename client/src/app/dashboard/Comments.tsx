@@ -28,7 +28,9 @@ interface userData {
   user_picture: string;
 }
 
-function Comments({ userId, cardId }: { userId: number, cardId: number }) {
+function Comments({ cardId }: { cardId: number }) {
+  const userId = localStorage.getItem("userConnectedId");
+
   const [comments,setComments] = useState<any[]>([
     {
       userId: '1',
@@ -92,7 +94,7 @@ function Comments({ userId, cardId }: { userId: number, cardId: number }) {
     });
   };
 
-  const data =[
+  const data = [
     {
       userId: '02b',
       comId: '017',
@@ -112,7 +114,7 @@ function Comments({ userId, cardId }: { userId: number, cardId: number }) {
           showTimestamp={false}
           removeEmoji={true}
           currentUser={{
-            currentUserId: userId.toString(),
+            currentUserId: userId as string,
             currentUserImg: currentUserData?.user_picture
               ? `http://localhost:3000/images/${currentUserData.user_picture}`
               : 'http://localhost:3000/images/default.png',

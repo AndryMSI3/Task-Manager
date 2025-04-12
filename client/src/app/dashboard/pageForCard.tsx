@@ -227,7 +227,6 @@ const CardPage = ({ cardData }:{ cardData: number[] }) => {
       </div>
       <Comments 
         cardId={cardData[0]}
-        userId={cardData[1]}
       />
     </>
   );
