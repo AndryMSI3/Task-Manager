@@ -72,13 +72,18 @@ password = mot_de_passe_de_votre_base_de_donnée
         </pre>
     </li>
     <li><strong>Installer les dépendances</strong><br>
-        <code>npm run install</code><br>
+	    <strong>Backend :</strong><br>
+        <code>cd nodejs-express-mysql</code><br>
+		<code>npm run install</code><br>  
+        <code>npm run build</code><br>  
+		<strong>Frontend :</strong><br>
 		<code>cd client</code><br>
+		<code>npm run install</code><br>
         <code>npm run build</code><br>
 	<li><strong>Exécuter l'application</strong><br>
         <strong>Backend :</strong><br>
         <code>cd nodejs-express-mysql</code><br>
-        <code>ts-node server.ts</code><br>     
+        <code>node server.js</code><br>     
 	    <strong>Frontend :</strong><br>
 		<code>cd client</code><br>
 		<code>npm run start</code><br>
