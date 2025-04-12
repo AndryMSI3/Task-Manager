@@ -72,8 +72,10 @@ export function Sidebar({ navData }: SidebarProps) {
           (isMobile ? "fixed w-full bottom-0 top-0 z-50" : "sticky w-1/5 top-0 h-screen")
           :"w-0")}
         aria-label="Main navigation"
-        aria-hidden={!isOpen}
-        inert={!isOpen}
+        aria-hidden={isOpen? true: false}
+        {...({
+          inert: !isOpen,
+        } as any)}
       >
         <div className="flex h-full flex-col py-10 pl-[25px] pr-[7px]">
           <div className="relative pr-4.5">
