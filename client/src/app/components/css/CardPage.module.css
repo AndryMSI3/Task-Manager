@@ -1,0 +1,8 @@
+.tiptap .ProseMirror {
+    border: none !important; /* Enlever toute bordure autour du texte */
+    outline: none !important; /* Enlever le contour au focus */
+}
+  
+.tiptap .ProseMirror:focus {
+outline: none !important; /* Toujours s'assurer qu'il n'y a pas de contour au focus */
+}

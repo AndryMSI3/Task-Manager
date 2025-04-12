@@ -1,0 +1,169 @@
+.content p {
+    margin: 0;
+}
+
+/* .DraftEditor-editorContainer, .DraftEditor-root, .public-DraftEditor-content {
+    height: 200px;
+} */
+
+.public-DraftStyleDefault-ltr {
+    margin: 0;
+}
+.ProjectModal_modalBar__LzdaQ button {
+    width: 25%;  
+}
+
+
+button {
+    background: linear-gradient(to bottom, rgb(126, 24, 110) 21%, rgb(31, 36, 77) 100%);
+    padding: 8px;
+    height: 50px;
+    width: 15%;
+    font-weight: 50;
+    color: rgb(255, 255, 255);
+    border: none;
+    font-size: larger;
+    font-family: 'Montserrat',Helvetica,Arial,Lucida,sans-serif;
+}
+
+button {
+    background: linear-gradient(to bottom, rgb(126, 24, 110) 21%, rgb(31, 36, 77) 100%);
+    padding: 8px;
+    height: 50px;
+    width: 15%;
+    font-weight: 50;
+    color: rgb(255, 255, 255);
+    border: none;
+    font-size: larger;
+    font-family: 'Montserrat',Helvetica,Arial,Lucida,sans-serif;
+}
+
+.replySection .replyBtn {
+    display: none;
+} 
+
+.replyBtn {
+    margin: 0;
+}
+.userLink {
+    display: block;
+    align-items: center;
+}
+
+.userInfo div:nth-child(3) {
+    align-self: flex-end;
+}
+
+.overlay {
+    padding: 5px;
+}
+
+
+.userActions{
+    display: none;
+}
+
+.replysection .advanced-overlay {
+    margin-left: 75px;
+}
+
+.rdw-image-wrapper {
+    display: none;
+}
+.userInfo .commentsTwo .fullName {
+    margin-left: 0px; 
+}
+
+/* .displayer .ql-container.ql-snow{
+    border: none;
+}
+ */
+.replyBtn span{
+    padding-right: 17px;
+}
+.replyBtn {
+    height: 30px;
+    border-radius: 0;
+    float: right;
+    background-color: antiquewhite;
+    border: none;
+    color: white;
+    outline: none;
+    font-weight: 500;
+    font-size: 12px;
+    margin: 7px 5px 10px 10px !important;
+    width: 87px;
+    padding: 8px;
+
+}
+
+.halfDiv {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.replySection {
+    border-left: none;
+}
+.userInfo .commentsTwo {
+    display: flex;
+    align-items: center;
+    margin-top: 0px;
+}
+
+.infoStyle {
+    margin-top: 15px;
+    margin-left: 20px; 
+    font-size: 15px;
+}
+
+.imgdefault { 
+    top: 0;
+    border-radius: 0;
+    border: 1px black solid;
+    width: 128px;
+    height: 128px;
+}
+
+.userLink .imgdefault {
+    top: 0;
+    border-radius: 0;
+    border: 1px black solid;
+    width: 128px;
+    height: 128px;
+}
+
+.advanced-form {
+    width: 90%;
+    padding: 0px;
+    flex-direction: column;
+}
+
+.rdw-editor-main {
+    left: 10px;
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: unset;
+}
+
+.advanced-border{
+    border-radius: 0;
+}
+
+
+
+.replyIcon {
+    visibility: none;
+}
+
+.replySection {
+    margin-left: 75px;
+    padding: 0px 0px 30px 10px;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: row;
+}

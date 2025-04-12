@@ -1,0 +1,85 @@
+/* Supprime l'outline et toute bordure de focus */
+.ProseMirror:focus {
+    outline: none !important;
+    border: none !important;
+}
+
+.replySection .replyBtn {
+  display: none;
+}
+
+.replySection {
+  border-left: 1px solid rgb(235, 235, 235);
+  margin-left: 4.5vw;
+  padding: 0px 0px 0px 15px;
+}
+
+.userActions {
+  display: none;
+}
+
+.boutonEnregistrer {
+  font-size: small;
+  padding-bottom: 6px;
+  padding-top: 6px;
+  padding-right: 12px;
+  padding-left: 12px;
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+  margin-right: 1vw;
+}
+
+.form .postBtn .cancelBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem; /* 2.5 équivaut généralement à 10px, mais à ajuster si tu veux une autre valeur */
+  text-align: center;
+  font-weight: 500; /* équivalent de font-medium */
+  transition: all 0.1s; /* Ajout d'un effet de transition */
+  background-color: transparent;
+  border: 1px solid black; /* Assure-toi que tu définis la couleur primaire */
+  color: black; /* Assure-toi de définir la couleur primaire */
+  border-radius: 5px;
+  padding-bottom: 9px;
+  padding-top: 9px;
+  padding-right: 35px;
+  padding-left: 35px;
+  margin-top: 1vw;
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+
+.form .postBtn:hover .cancelBtn:hover{
+  padding-bottom: 9px;
+  padding-top: 9px;
+  padding-right: 35px;
+  padding-left: 35px;
+  margin-top: 1vw;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  border: 1px solid black; /* Assure-toi que tu définis la couleur primaire */
+  background-color:rgba(0, 0, 0, 0.211); /* effet de survol, bg-primary/10 */
+}
+
+.form .postBtn:focus {
+  outline: none; /* Suppression du contour par défaut lors du focus */
+}
+
+.tiptap {
+  min-height: 150px; /* Hauteur minimale */
+}
+
+.userLink {
+  height: 20px;
+}
+
+
+.infoStyle {
+  margin-left: 45px;
+  font-size: 15px;
+}
+
+.userInfo .commentsTwo .fullName {
+  margin-left: 5px;
+}

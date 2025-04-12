@@ -1,0 +1,51 @@
+{
+  "name": "free-nextadmin-nextjs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "apexcharts": "^3.45.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "draft-js": "^0.11.7",
+    "draftjs-to-html": "^0.9.1",
+    "flatpickr": "^4.6.13",
+    "html-to-draftjs": "^1.5.0",
+    "jsvectormap": "^1.6.0",
+    "next": "^14.1.4",
+    "next-themes": "^0.4.6",
+    "react": "^18",
+    "react-apexcharts": "^1.4.1",
+    "react-comments-section": "github:AndryMSI3/react-comments-section",
+    "react-dom": "^18",
+    "react-draft-wysiwyg": "github:AndryMSI3/react-draft-wysiwyg",
+    "react-quill": "^2.0.0",
+    "react-select": "^5.8.0",
+    "react-table": "^7.8.0",
+    "react-toastify": "^11.0.5",
+    "tailwind-merge": "^3.2.0"
+  },
+  "devDependencies": {
+    "@types/draft-js": "^0.11.18",
+    "@types/draftjs-to-html": "^0.8.4",
+    "@types/html-to-draftjs": "^1.5.0",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/react-draft-wysiwyg": "^1.13.8",
+    "@types/react-table": "^7.7.19",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
+    "postcss": "^8",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
